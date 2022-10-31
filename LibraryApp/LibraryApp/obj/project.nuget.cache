@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+97yDivPxjiFgThAsviw5yHccLSkv0fCEPRCYsJFA0gD5H+SHp6Lg1hXfCYl66pycjUg8bKJWfhrZNmVJIRbYw==",
+  "dgSpecHash": "91aT+EByc9uYxBq1Nrpp+UDjB2F9S+xkJ3bsK2k4CaLxkZovG8rb66cCnA07Q6fShUCvdJTBGfJG7CCeib0qXA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\LibraryApp\\LibraryApp.csproj",
+  "projectFilePath": "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\LibraryApp\\LibraryApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bujdo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\bujdo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

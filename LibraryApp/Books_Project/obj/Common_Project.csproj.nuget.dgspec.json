@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\Books_Project\\Common_Project.csproj": {}
+    "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\Books_Project\\Common_Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\Books_Project\\Common_Project.csproj": {
+    "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\Books_Project\\Common_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\Books_Project\\Common_Project.csproj",
+        "projectUniqueName": "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\Books_Project\\Common_Project.csproj",
         "projectName": "Common_Project",
-        "projectPath": "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\Books_Project\\Common_Project.csproj",
+        "projectPath": "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\Books_Project\\Common_Project.csproj",
         "packagesPath": "C:\\Users\\bujdo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bujdo\\source\\repos\\LibraryApp\\Books_Project\\obj\\",
+        "outputPath": "C:\\Users\\bujdo\\Desktop\\github\\ni-konyvtar-projekt\\LibraryApp\\Books_Project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

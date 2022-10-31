@@ -9,13 +9,22 @@ namespace LibraryApp.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
+        /// <summary>
+        /// Returns all Book entities in the db.
+        /// </summary>
+        /// <returns>Ok(books)</returns>
         [HttpGet]
         public ActionResult<IEnumerable<Books>> Get()
         {
-            var book = BooksRepository.GetBooks();
-            return Ok(book);
+            var books = BooksRepository.GetBooks();
+            return Ok(books);
         }
 
+        /// <summary>
+        /// Returns Book based on provided id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Ok() if successful, NotFound() if not</returns>
         [HttpGet("{id}")]
         public ActionResult<Books> Get(long id)
         {
@@ -31,6 +40,11 @@ namespace LibraryApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds the given Book to the db.
+        /// </summary>
+        /// <param name="book">Book to be added</param>
+        /// <returns>Ok()</returns>
         [HttpPost]
         public ActionResult Post(Books book)
         {
@@ -39,6 +53,12 @@ namespace LibraryApp.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Updates Book of id (id) to given Book
+        /// </summary>
+        /// <param name="book">Book to update already existing one to</param>
+        /// <param name="id">Id of Book to be updated</param>
+        /// <returns>Ok() if successful, NotFound() if not</returns>
         [HttpPut("{id}")]
         public ActionResult Put(Books book, long id)
         {
@@ -62,6 +82,11 @@ namespace LibraryApp.Controllers
             */
         }
 
+        /// <summary>
+        /// Deletes a Book based on id given.
+        /// </summary>
+        /// <param name="id">Id of the Book to be deleted</param>
+        /// <returns>Ok() if successful, NotFound() if not.</returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(long id)
         {

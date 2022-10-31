@@ -3,17 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace LibraryApp.Repositories
+namespace LibraryApp.Context
 {
-    public class BooksContext: DbContext
+    public class BooksContext : DbContext
     {
         public BooksContext()
         {
         }
 
-        public BooksContext([NotNull] DbContextOptions options) :base(options)
-        {
-        }
+        // public BooksContext([NotNull] DbContextOptions options) :base(options){}
 
         public DbSet<Books> Books { get; set; }
 
