@@ -1,7 +1,4 @@
-﻿using LibraryApp.Repositories;
-using Microsoft.EntityFrameworkCore;
-
-namespace LibraryApp
+﻿namespace LibraryApp
 {
     public class Startup
     {

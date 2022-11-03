@@ -1,7 +1,5 @@
-﻿using Books_Project.Models;
+using Books_Project.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryApp.Context
 {

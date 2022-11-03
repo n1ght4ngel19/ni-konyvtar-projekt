@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Books_Project.Models
 {
     /*
@@ -18,7 +11,7 @@ namespace Books_Project.Models
      */
     public class Rental
     {
-        public long Id { get; set; } 
+        public long Id { get; set; }
 
         public int UserId { get; set; }      // User Id
 
