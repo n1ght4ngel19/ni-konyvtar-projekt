@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Books_Project.Models
 {
@@ -11,7 +11,7 @@ namespace Books_Project.Models
         - Leltári szám
         - Kiadás éve
      */
-    public class Books        // public?
+    public class Books
     {
         [Key]
         public long Id { get; set; }

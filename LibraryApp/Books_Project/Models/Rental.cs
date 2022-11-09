@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Books_Project.Models
 {
     /*
@@ -11,11 +13,14 @@ namespace Books_Project.Models
      */
     public class Rental
     {
+        [Key]
         public long Id { get; set; }
 
-        public int UserId { get; set; }      // User Id
+        [Required]
+        public int UserId { get; set; }
 
-        public int BookId { get; set; }     // Books Id
+        [Required]
+        public int BookId { get; set; }
 
         public DateTime rentalStart { get; set; }
 

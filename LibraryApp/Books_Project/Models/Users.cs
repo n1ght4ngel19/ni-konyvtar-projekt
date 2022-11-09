@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Books_Project.Models
 {
@@ -13,6 +13,7 @@ namespace Books_Project.Models
      */
     public class Users
     {
+        [Key]
         public long Id { get; set; }         // Olvasószám?
 
         [Required]

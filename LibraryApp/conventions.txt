@@ -1,0 +1,138 @@
+Formatting
+    [F.2] Line Spacing
+        [F.2.1] ✔️ DO Separate type members with a single blank line, except private fields
+        [F.2.2] ✔️ CONSIDER Use single blank lines to split method bodies into logically-related lines
+        [F.2.5] ✔️ DO Separate unrelated control flow blocks with a blank line
+     
+    [F.3] Statement Complexity
+        [F.3.1] ❌ AVOID Adding excessive complexity in compound statements
+        [F.3.2] ✔️ CONSIDER Extracting methods from complex nested expressions
+        [F.3.3] ✔️ CONSIDER Splitting long parameter lists
+        [F.3.5] ✔️ DO Apply consistent formatting on split statements     
+
+    [F.4] Indents and Braces
+        [F.4.1] ✔️ DO Use 4 space characters for indentation, never tab characters
+        [F.4.5] ❌ Avoid Placing multiple statements in a switch case block
+        [F.4.6] ❌ DO NOT Use single-line scopes EXCEPT for single-item initializers or auto-implemented properties
+        [F.4.7] ✔️ DO Format multiple array or object property initializer statements into a multi-line embedded scope block
+        [F.4.8] ✔️ CONSIDER Using C# lambda syntax for simple property and method implementations
+        [F.4.9] ✔️ DO Use braces with lambda expressions that span multiple lines
+
+Naming
+
+    [N.1] Casing Style
+        [N.1.2] ✔️ DO Use underscore + camelCase for private fields and member variables
+        [N.1.3] ✔️ DO Capitalize both letters of two-letter acronyms
+        [N.1.4] ✔️ DO Apply PascalCase style when using 3+letter acronyms
+        [N.1.5] ❌ DO NOT Use ALL CAPS for any name
+
+    [N.2] Acronyms and Abbreviations
+        [N.2.1] ❌ DO NOT Use acronyms unless they are generally accepted within NI or our client domains
+        [N.2.2] ❌ DO NOT Use abbreviations unless they are commonly accepted terms
+
+    [N.3] ❌ DO NOT Use product names in APIs unless those APIs are truly exclusive to that product
+
+    [N.4] ✔️ CONSIDER Using parameter/property names that imply usage, not structure. In general, do not embed type information into names
+
+    [N.5] Identifier Prefixing
+        [N.5.2] ❌ DO NOT Prefix enums, classes or delegates with any letter 
+        
+    [N.6] Properties and Methods
+        [N.6.1] ✔️ DO Name properties with nouns instead of verbs
+        [N.6.2] ✔️ DO Name methods with verbs instead of nouns
+        [N.6.3] ✔️ DO Use the proper words to imply performance/allocation characteristics
+
+Code Organization
+
+    [C.1] Namespaces
+        [C.1.1] ✔️ DO Prefix namespace names with a company name to prevent namespaces from different companies from having the same name
+        [C.1.2] ✔️ DO Organize the hierarchy of namespaces around groups of related technologies
+        [C.1.3] ✔️ DO Use PascalCasing and separate namespace components with periods
+        [C.1.4] ✔️ CONSIDER Using plural namespace names where appropriate
+        [C.1.5] ❌ DO NOT Use the same name for a namespace and a type in that namespace
+        [C.1.6] ✔️ DO Create namespaces of the form NationalInstruments.<ComponentName>.<SubComponentName>.xxx
+        [C.1.7] ✔️ DO Place modeling types in a NationalInstruments.<ComponentName>.SourceModel namespace
+        [C.1.8] ✔️ DO Place View Models / Views of a Model Type in a NationalInstruments.<ComponentName>.Design namespace
+        [C.1.9] ✔️ DO Place Dfir types in a NationalInstruments.<ComponentName>.Dfir namespace
+        [C.1.10] ✔️ DO Place types which are common to both SourceModel and Dfir in a NationalInstruments.<ComponentName>.CommonModel namespace
+        [C.1.11] ✔️ DO Ensure files in an assembly are under the assembly's root namespace and the namespace matches the folder hierarchy on disk
+        [C.1.12] ✔️ CONSIDER Naming the assembly to match the root namespace
+
+    [C.2] ✔️ DO Place public types not intended for use outside the defining assembly's component in a Restricted namespace
+
+    [C.3] ✔️ CONSIDER Having one public or internal type per file and its name should match the file's name
+
+    [C.5] ❌ DO NOT Expose nested types as public or internal
+
+    [C.6] ✔️ CONSIDER Arranging types and members in logical layers
+
+    [C.7] Local Functions
+        [C.7.1] ✔️ DO Place local functions at the end of the containing method
+        [C.7.2] ❌ DO NOT Nest local functions
+
+    [C.8] ❌ AVOID Using regions
+
+Language Features
+
+    [L.1] ✔️ DO Use primitive C# types instead of Framework Class Library (FCL) types
+
+    [L.2] Casting
+        [L.2.1] ✔️ DO Null-check the result of an as cast
+        [L.2.2] ✔️ CONSIDER Using is type matching to as plus null check
+        [L.2.3] ✔️ CONSIDER Using C-style casting if failed cast should throw an exception
+
+    [L.3] ❌ AVOID Using var when it hinders the understanding of the code, or if the type cannot be inferred on the line it's declared on
+
+    [L.4] Constructors
+        [L.4.1] ✔️ CONSIDER Having one public constructor per class
+        [L.4.2] ❌ AVOID Doing work in more than one constructor overload (ideally constructors don't do any work)
+        [L.4.3] ✔️ CONSIDER Having only required parameters for constructors
+
+    [L.5] Exceptions
+        [L.5.1] ✔️ DO Write exception-safe code
+        [L.5.2] ✔️ DO Throw exceptions instead of returning error codes or null
+
+    [L.6] Events
+        [L.6.1] ✔️ CONSIDER Following standard conventions for event handlers (naming, inheritance and implementation)
+        [L.6.2] ❌ AVOID Using multi-threaded events
+
+    [L.7] ✔️ CONSIDER Handling out of range values for enumerations
+
+    [L.8] ✔️ CONSIDER Checking input parameters to a function that can be null or out of range
+
+    [L.9] ❌ AVOID Using tuples in public APIs in product code
+
+    [L.10] ❌ DO NOT Prefix numeric literals with _
+
+    [L.11] ❌ DO NOT Use this. to access member of a class
+
+    [L.12] Properties and Methods
+        [L.12.1] ❌ DO NOT Introduce side effects when calling properties
+        [L.12.2] ❌ DO NOT Allocate each time a property is called
+
+    [L.13] ❌ DO NOT Use LINQ query syntax
+
+Documentation and Comments
+
+    [D.1] ✔️ DO Document public and protected members of APIs
+        Public API Documentation Example
+        Private API Documentation Example
+
+    [D.2] ❌ DO NOT Duplicate documentation from methods with the same name but different signatures
+
+    [D.3] ❌ DO NOT Nest <remarks> and <exceptions> inside <summary> tags
+
+    [D.4] ✔️ DO Place a link to an actual task/user story in TODO comments
+
+    [D.5] ❌ DO NOT Put names, initials or anything pertaining to individual developers into a TODO comment
+
+    [D.6] ✔️ DO Use "AB#nnnnnn" format to reference AzDO (Azure Boards) work items in comments
+
+Maintainability
+
+    [M.1] External dependencies
+        [M.1.1] ❌ AVOID Rewriting Framework Class Library (FCL) API implementations
+
+    [M.2] ✔️ DO Place English localizable strings into a resource file
+
+    [M.3] ✔️ DO Ensure projects have "Check for arithmetic overflow/underflow" enabled for Debug/Release Builds and disabled for Distribution builds
