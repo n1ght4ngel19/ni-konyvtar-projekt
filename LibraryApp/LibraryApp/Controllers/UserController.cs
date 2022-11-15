@@ -4,34 +4,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryApp.Controllers
 {
-    [Route("api/book")]
+    [Route("api/user")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class UserController : ControllerBase
     {
+
         /// <summary>
-        /// Returns all Book entities in the db.
+        /// Returns all User entities in the db.
         /// </summary>
-        /// <returns>Ok(books)</returns>
+        /// <returns>Ok(user)</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<Books>> Get()
+        public ActionResult<IEnumerable<Users>> Get()
         {
-            var books = BooksRepository.GetBooks();
-            return Ok(books);
+            var user = UsersRepository.GetUsers();
+            return Ok(user);
         }
 
         /// <summary>
-        /// Returns Book based on provided id
+        /// Returns User based on provided id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Ok() if successful, NotFound() if not</returns>
         [HttpGet("{id}")]
-        public ActionResult<Books> Get(int id)
+        public ActionResult<Users> Get(int id)
         {
-            var book = BooksRepository.GetBook(id);
+            var user = UsersRepository.GetUser(id);
 
-            if (book != null)
+            if (user != null)
             {
-                return Ok(book);
+                return Ok(user);
             }
             else
             {
@@ -40,28 +41,28 @@ namespace LibraryApp.Controllers
         }
 
         /// <summary>
-        /// Adds the given Book to the db.
+        /// Adds the given User to the db.
         /// </summary>
-        /// <param name="book">Book to be added</param>
+        /// <param name="user">User to be added</param>
         /// <returns>Ok()</returns>
         [HttpPost]
-        public ActionResult Post(Books book)
+        public ActionResult Post(Users user)
         {
-            BooksRepository.AddBook(book);
+            UsersRepository.AddUser(user);
 
             return Ok();
         }
 
         /// <summary>
-        /// Updates Book of id (id) to given Book
+        /// Updates User of id (id) to given Book
         /// </summary>
-        /// <param name="book">Book to update already existing one to</param>
-        /// <param name="id">Id of Book to be updated</param>
+        /// <param name="user">User to update already existing one to</param>
+        /// <param name="id">Id of User to be updated</param>
         /// <returns>Ok() if successful, NotFound() if not</returns>
         [HttpPut("{id}")]
-        public ActionResult Put(Books book, int id)
+        public ActionResult Put(Users user, int id)
         {
-            var successful = BooksRepository.UpdateBook(book, id);
+            var successful = UsersRepository.UpdateUser(user, id);
             if (successful)
             {
                 return Ok();
@@ -70,22 +71,23 @@ namespace LibraryApp.Controllers
         }
 
         /// <summary>
-        /// Deletes a Book based on id given.
+        /// Deletes a User based on id given.
         /// </summary>
-        /// <param name="id">Id of the Book to be deleted</param>
+        /// <param name="id">Id of the User to be deleted</param>
         /// <returns>Ok() if successful, NotFound() if not.</returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var book = BooksRepository.GetBook(id);
+            var user = UsersRepository.GetUser(id);
 
-            if (book != null)
+            if (user != null)
             {
-                BooksRepository.DeleteBook(book);
+                UsersRepository.DeleteUser(user);
                 return Ok();
             }
 
             return NotFound();
         }
     }
+
 }

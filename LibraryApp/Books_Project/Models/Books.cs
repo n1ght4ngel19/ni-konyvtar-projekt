@@ -14,16 +14,16 @@ namespace Books_Project.Models
     public class Books
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; } = null;
 
         [Required]
-        public string Writer { get; set; }
+        public string? Writer { get; set; } = null;
 
         [Required]
-        public string Publisher { get; set; }
+        public string? Publisher { get; set; } = null;
 
         [Required]
         public int Year_of_Publication { get; set; }

@@ -3,7 +3,7 @@ using LibraryApp.Context;
 
 namespace LibraryApp.Repositories
 {
-    public static class BooksRepository
+    public class BooksRepository
     {
 
         /// <summary>
@@ -12,7 +12,7 @@ namespace LibraryApp.Repositories
         /// <returns>Returns all Books.</returns>
         public static IList<Books> GetBooks()
         {
-            using (var database = new BooksContext())
+            using (var database = new LibraryContext())
             {
                 var books = database.Books.ToList();
 
@@ -25,9 +25,9 @@ namespace LibraryApp.Repositories
         /// </summary>
         /// <param name="id">ID of the Book we want to get.</param>
         /// <returns>The Book which's ID we gave</returns>
-        public static Books GetBook(long id)
+        public static Books? GetBook(int id)
         {
-            using (var database = new BooksContext())
+            using (var database = new LibraryContext())
             {
                 var book = database.Books.Where(p => p.Id == id).FirstOrDefault();
 
@@ -41,7 +41,7 @@ namespace LibraryApp.Repositories
         /// <param name="book">The book object we want to add to the database</param>
         public static void AddBook(Books book)
         {
-            using (var database = new BooksContext())
+            using (var database = new LibraryContext())
             {
                 database.Books.Add(book);
 
@@ -49,9 +49,9 @@ namespace LibraryApp.Repositories
             }
         }
 
-        public static bool UpdateBook(Books book, long id)
+        public static bool UpdateBook(Books book, int id)
         {
-            using (var database = new BooksContext())
+            using (var database = new LibraryContext())
             {
                 var dbBook = database.Books.Where(p => p.Id == id).FirstOrDefault();
                 if (dbBook != null)
@@ -77,7 +77,7 @@ namespace LibraryApp.Repositories
         /// <param name="book">Book to be deleted from the database</param>
         public static void DeleteBook(Books book)
         {
-            using (var database = new BooksContext())
+            using (var database = new LibraryContext())
             {
                 database.Books.Remove(book);
 

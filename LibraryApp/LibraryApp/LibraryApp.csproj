@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Books_Project\Common_Project.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

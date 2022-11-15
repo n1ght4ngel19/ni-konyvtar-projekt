@@ -10,3 +10,15 @@ C:\Users\bujdo\source\repos\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Pro
 C:\Users\bujdo\source\repos\LibraryApp\Books_Project\obj\Debug\net6.0\refint\Common_Project.dll
 C:\Users\bujdo\source\repos\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.pdb
 C:\Users\bujdo\source\repos\LibraryApp\Books_Project\obj\Debug\net6.0\ref\Common_Project.dll
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\bin\Debug\net6.0\Common_Project.deps.json
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\bin\Debug\net6.0\Common_Project.dll
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\bin\Debug\net6.0\Common_Project.pdb
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.csproj.AssemblyReference.cache
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.AssemblyInfoInputs.cache
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.AssemblyInfo.cs
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.csproj.CoreCompileInputs.cache
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.dll
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\refint\Common_Project.dll
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\Common_Project.pdb
+C:\Users\bujdo\Desktop\github\ni-konyvtar-projekt\LibraryApp\Books_Project\obj\Debug\net6.0\ref\Common_Project.dll

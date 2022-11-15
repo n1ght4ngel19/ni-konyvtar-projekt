@@ -17,12 +17,14 @@ namespace Books_Project.Models
         public long Id { get; set; }         // Olvasószám?
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required]
-        public string Address { get; set; }
+        public string Address { get; set; } = null!;
 
         [Required]
         public DateTime DateOfBirth { get; set; }
+
+        // ICollections<Rental>?
     }
 }
