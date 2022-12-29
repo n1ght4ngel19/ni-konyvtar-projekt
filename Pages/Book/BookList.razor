@@ -1,7 +1,9 @@
 ﻿@page "/book"
 
 @inject IBookRepository _bookRepository
+@inject IJSRuntime _jsRuntime
 
+<_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
 <div class="row mt-4">
 	<div class="col-6">
 		<h3 class="card-title text-primary">Books List</h3>
@@ -43,7 +45,8 @@
 								@Book.IsBorrowed
 							</td>
 							<td>
-								<NavLink href="" class="btn btn-primary">Edit</NavLink>
+								<NavLink href="@($"/book/edit/{Book.BookId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleDelete(Book.BookId)">Delete</button>
 							</td>
 						</tr>
 					}
@@ -71,6 +74,7 @@
 @code {
 	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
 	public bool isLoading = true;
+	private int DeleteBookId { get; set; } = 0;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -81,5 +85,21 @@
 	{
 		Books = _bookRepository.GetAll();
 		isLoading = false;
+	}
+
+	private void HandleDelete(int Id)
+	{
+		DeleteBookId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private async Task ConfirmDeleteClick(bool isConfirmed)
+	{
+		if (isConfirmed && DeleteBookId != 0)
+		{
+			_bookRepository.Delete(DeleteBookId);
+			LoadBooks();
+			_jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+		}
 	}
 }
