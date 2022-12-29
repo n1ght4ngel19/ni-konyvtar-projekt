@@ -1,0 +1,90 @@
+﻿@page "/memberslist/create"
+@page "/memberslist/edit/{Id:int}"
+
+@inject IMemberRepository _memberRepository
+@inject NavigationManager _navigationManager
+
+<div class="row my-2">
+	<h3 class="card-title text-primary mb-3 ml-3">@Action book</h3>
+
+	<div class="col-6">
+		@if (isLoading)
+		{
+			// Loading
+			<div class="text-center">
+				<img src="/images/spinner-blue.gif">
+			</div>
+		}
+		else
+		{
+			<EditForm Model="Member" OnValidSubmit="UpdateInsert">
+				<DataAnnotationsValidator />
+				@*<ValidationSummary/>*@
+				<div class="form-group">
+					<label>Name</label>
+					<InputText @bind-Value="Member.Name" class="form-control"></InputText>
+					<ValidationMessage For="() => Member.Name"></ValidationMessage>
+
+					<label>BirthDate</label>
+					<InputDate @bind-Value="Member.BirthDate" class="form-control"></InputDate>
+					<ValidationMessage For="() => Member.BirthDate"></ValidationMessage>
+
+					<label>Address</label>
+					<InputText @bind-Value="Member.Address" class="form-control"></InputText>
+					<ValidationMessage For="() => Member.Address"></ValidationMessage>
+				</div>
+				<div class="form-group py-2">
+					<button class="btn btn-primary">@Action</button>
+					<NavLink href="/memberslist" class="btn btn-secondary">Back to Index</NavLink>
+				</div>
+			</EditForm>
+		}
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	private MemberDto Member { get; set; } = new MemberDto();
+	private String Action { get; set; } = "Add";
+
+	private void UpdateInsert()
+	{
+		if (Member.MemberId == 0)
+		{
+			// Create request
+			_memberRepository.Create(Member);
+		}
+		else
+		{
+			// Update request
+			_memberRepository.Update(Member);
+		}
+
+		_navigationManager.NavigateTo("/memberslist");
+	}
+
+	public bool isLoading = true;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id == 0)
+		{
+			// Create request
+			isLoading = false;
+		}
+		else
+		{
+			// Update request
+			Action = "Edit";
+			await Task.Run(LoadBook);
+		}
+	}
+
+	private void LoadBook()
+	{
+		Member = _memberRepository.Get(Id);
+		isLoading = false;
+	}
+}

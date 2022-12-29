@@ -1,0 +1,100 @@
+﻿@page "/memberslist"
+
+@inject IMemberRepository _memberRepository
+@inject IJSRuntime _jsRuntime
+
+<_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
+<div class="row mt-4">
+	<div class="col-6">
+		<h3 class="card-title text-primary">Members List</h3>
+	</div>
+	<div class="col-5 offset-1">
+		<a href="/memberslist/create" class="btn btn-primary form-control">Add new member</a>
+	</div>
+	<div class="col-12">
+		@if (Members.Any())
+		{
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>MemberId</th>
+						<th>Name</th>
+						<th>BirthDate</th>
+						<th>Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var Member in Members)
+					{
+						<tr>
+							<td>
+								@Member.MemberId
+							</td>
+							<td>
+								@Member.Name
+							</td>
+							<td>
+								@Member.BirthDate
+							</td>
+							<td>
+								@Member.Address
+							</td>
+							<td>
+								<NavLink href="@($"/memberslist/edit/{Member.MemberId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleDelete(Member.MemberId)">Delete</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			if (isLoading)
+			{
+				// Loading
+				<div class="text-center">
+					<img src="/images/spinner-blue.gif">
+				</div>
+			}
+			else
+			{
+				// No records in the DB
+				<p>No records found in the database.</p>
+			}
+		}
+	</div>
+</div>
+
+@code {
+	private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+	public bool isLoading = true;
+	private int DeleteMemberId { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Run(LoadMembers);
+	}
+
+	private void LoadMembers()
+	{
+		Members = _memberRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void HandleDelete(int Id)
+	{
+		DeleteMemberId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private async Task ConfirmDeleteClick(bool isConfirmed)
+	{
+		if (isConfirmed && DeleteMemberId != 0)
+		{
+			_memberRepository.Delete(DeleteMemberId);
+			LoadMembers();
+			_jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+		}
+	}
+}
