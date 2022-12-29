@@ -1,29 +1,31 @@
 ﻿@page "/book/create"
-@using LibraryAppNi.Data.Library;
+
+@inject IBookRepository _bookRepository
+@inject NavigationManager _navigationManager
 
 <div class="row my-2">
 	<h3 class="card-title text-primary mb-3 ml-3">@Action book</h3>
 
 	<div class="col-6">
-		<EditForm Model="bookDto" OnValidSubmit="UpdateInsert">
+		<EditForm Model="Book" OnValidSubmit="UpdateInsert">
 			<DataAnnotationsValidator/>
 			@*<ValidationSummary/>*@
 			<div class="form-group">
 				<label>Title</label>
-				<InputText @bind-Value="bookDto.Title" class="form-control"></InputText>
-				<ValidationMessage For="() => bookDto.Title"></ValidationMessage>
+				<InputText @bind-Value="Book.Title" class="form-control"></InputText>
+				<ValidationMessage For="() => Book.Title"></ValidationMessage>
 				<label>Author</label>
-				<InputText @bind-Value="bookDto.Author" class="form-control"></InputText>
-				<ValidationMessage For="() => bookDto.Author"></ValidationMessage>
+				<InputText @bind-Value="Book.Author" class="form-control"></InputText>
+				<ValidationMessage For="() => Book.Author"></ValidationMessage>
 				<label>Publisher</label>
-				<InputText @bind-Value="bookDto.Publisher" class="form-control"></InputText>
-				<ValidationMessage For="() => bookDto.Publisher"></ValidationMessage>
+				<InputText @bind-Value="Book.Publisher" class="form-control"></InputText>
+				<ValidationMessage For="() => Book.Publisher"></ValidationMessage>
 				<label>Publish Year</label>
-				<InputNumber @bind-Value="bookDto.PublishYear" class="form-control"></InputNumber>
-				<ValidationMessage For="() => bookDto.PublishYear"></ValidationMessage>
+				<InputNumber @bind-Value="Book.PublishYear" class="form-control"></InputNumber>
+				<ValidationMessage For="() => Book.PublishYear"></ValidationMessage>
 				<label>Is Borrowed?</label>
-				<InputCheckbox @bind-Value="bookDto.IsBorrowed" class="form-check-inline"></InputCheckbox>
-				<ValidationMessage For="() => bookDto.IsBorrowed"></ValidationMessage>
+				<InputCheckbox @bind-Value="Book.IsBorrowed" class="form-check-inline"></InputCheckbox>
+				<ValidationMessage For="() => Book.IsBorrowed"></ValidationMessage>
 			</div>
 			<div class="form-group py-2">
 				<button class="btn btn-primary">@Action</button>
@@ -34,11 +36,12 @@
 </div>
 
 @code {
-	private BookDto bookDto { get; set; } = new BookDto();
+	private BookDto Book { get; set; } = new BookDto();
 	private String Action { get; set; } = "Add";
 
 	private void UpdateInsert()
 	{
-		bookDto.Title = "Button clicked!";
+		_bookRepository.Create(Book);
+		_navigationManager.NavigateTo("/book");
 	}
 }
