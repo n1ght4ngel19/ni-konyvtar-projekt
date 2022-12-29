@@ -2,16 +2,31 @@
 @using LibraryAppNi.Data.Library;
 
 <div class="row my-2">
-	<h3 class="card-title text-primary mb-3 ml-3">@Title book</h3>
+	<h3 class="card-title text-primary mb-3 ml-3">@Action book</h3>
 
 	<div class="col-6">
-		<EditForm Model="bookDto">
+		<EditForm Model="bookDto" OnValidSubmit="UpdateInsert">
+			<DataAnnotationsValidator/>
+			@*<ValidationSummary/>*@
 			<div class="form-group">
 				<label>Title</label>
 				<InputText @bind-Value="bookDto.Title" class="form-control"></InputText>
+				<ValidationMessage For="() => bookDto.Title"></ValidationMessage>
+				<label>Author</label>
+				<InputText @bind-Value="bookDto.Author" class="form-control"></InputText>
+				<ValidationMessage For="() => bookDto.Author"></ValidationMessage>
+				<label>Publisher</label>
+				<InputText @bind-Value="bookDto.Publisher" class="form-control"></InputText>
+				<ValidationMessage For="() => bookDto.Publisher"></ValidationMessage>
+				<label>Publish Year</label>
+				<InputNumber @bind-Value="bookDto.PublishYear" class="form-control"></InputNumber>
+				<ValidationMessage For="() => bookDto.PublishYear"></ValidationMessage>
+				<label>Is Borrowed?</label>
+				<InputCheckbox @bind-Value="bookDto.IsBorrowed" class="form-check-inline"></InputCheckbox>
+				<ValidationMessage For="() => bookDto.IsBorrowed"></ValidationMessage>
 			</div>
 			<div class="form-group py-2">
-				<button class="btn btn-primary">@Title</button>
+				<button class="btn btn-primary">@Action</button>
 				<NavLink href="/book" class="btn btn-secondary">Back to Index</NavLink>
 			</div>
 		</EditForm>
@@ -20,5 +35,10 @@
 
 @code {
 	private BookDto bookDto { get; set; } = new BookDto();
-	private String Title { get; set; } = "Add";
+	private String Action { get; set; } = "Add";
+
+	private void UpdateInsert()
+	{
+		bookDto.Title = "Button clicked!";
+	}
 }

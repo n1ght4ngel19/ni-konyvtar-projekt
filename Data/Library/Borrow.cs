@@ -1,11 +1,17 @@
-﻿namespace LibraryAppNi.Data.Library
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LibraryAppNi.Data.Library
 {
     public class Borrow
     {
         public int BorrowId { get; set; }
-        public int MemberId { get; set; }
-        public int BookId { get; set; }
-        public DateTime BorrowDate { get; set; }
-        public DateTime BorrowDeadline { get; set; } // TODO: Validate date
+		[Required]
+		public int MemberId { get; set; }
+        [Required]
+		public int BookId { get; set; }
+        [Required]
+		public DateTime BorrowDate { get; set; }
+        [Required]
+		public DateTime BorrowDeadline { get; set; } // TODO: Validate date
     }
 }

@@ -1,20 +1,19 @@
-﻿namespace LibraryAppNi.Data.Library
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LibraryAppNi.Data.Library
 {
     public class Book
     {
-        //public Book(String title, String author, String publisher, int publishYear)
-        //{
-        //    Title = title;
-        //    Author = author;
-        //    Publisher = publisher;
-        //    PublishYear = publishYear;
-        //}
-
         public int BookId { get; set; }
+        [Required]
         public String Title { get; set; }
-        public String Author { get; set; }
-        public String Publisher { get; set; }
-        public int PublishYear { get; set; }
-        public Boolean IsBorrowed { get; set; }
+		[Required]
+		public String Author { get; set; }
+        [Required]
+		public String Publisher { get; set; }
+		[Required]
+		public int PublishYear { get; set; }
+        [Required]
+		public Boolean IsBorrowed { get; set; }
     }
 }
