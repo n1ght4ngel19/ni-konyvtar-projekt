@@ -1,4 +1,4 @@
-namespace LibraryAppNi.Data
+namespace KonyvtarApp.Data
 {
     public class WeatherForecastService
     {

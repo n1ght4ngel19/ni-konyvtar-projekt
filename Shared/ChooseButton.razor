@@ -1,0 +1,12 @@
+﻿<div>
+	<a href="@Page">
+		<h2>@Title</h2>
+	</a>
+</div>
+
+@code {
+	[Parameter]
+	public String Title { get; set; }
+	[Parameter]
+	public String Page { get; set; }
+}
