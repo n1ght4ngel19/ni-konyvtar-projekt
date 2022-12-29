@@ -9,6 +9,7 @@ namespace LibraryAppNi.Data.Mapper
         { 
             CreateMap<Book, BookDto>().ReverseMap();
 			CreateMap<Member, MemberDto>().ReverseMap();
+			CreateMap<Borrow, BorrowDto>().ReverseMap();
 		}
     }
 }

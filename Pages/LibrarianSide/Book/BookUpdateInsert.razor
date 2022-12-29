@@ -24,15 +24,19 @@
 					<label>Title</label>
 					<InputText @bind-Value="Book.Title" class="form-control"></InputText>
 					<ValidationMessage For="() => Book.Title"></ValidationMessage>
+
 					<label>Author</label>
 					<InputText @bind-Value="Book.Author" class="form-control"></InputText>
 					<ValidationMessage For="() => Book.Author"></ValidationMessage>
+
 					<label>Publisher</label>
 					<InputText @bind-Value="Book.Publisher" class="form-control"></InputText>
 					<ValidationMessage For="() => Book.Publisher"></ValidationMessage>
+
 					<label>Publish Year</label>
 					<InputNumber @bind-Value="Book.PublishYear" class="form-control"></InputNumber>
 					<ValidationMessage For="() => Book.PublishYear"></ValidationMessage>
+
 					<label>Is Borrowed?</label>
 					<InputCheckbox @bind-Value="Book.IsBorrowed" class="form-check-inline"></InputCheckbox>
 					<ValidationMessage For="() => Book.IsBorrowed"></ValidationMessage>

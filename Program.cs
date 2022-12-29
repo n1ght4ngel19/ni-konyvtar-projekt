@@ -17,6 +17,7 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
 
 
 var app = builder.Build();
