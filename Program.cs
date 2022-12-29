@@ -1,18 +1,24 @@
-﻿using KonyvtarApp.Data;
+using LibraryAppNi.Data;
+using LibraryAppNi.Data.Database;
+using LibraryAppNi.Data.Repository;
+using LibraryAppNi.Data.Repository.IRepository;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using KonyvtarApp.Data.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<LibraryAppContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryAppContext") ?? throw new InvalidOperationException("Connection string 'LibraryAppContext' not found.")));
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
+
 
 var app = builder.Build();
 

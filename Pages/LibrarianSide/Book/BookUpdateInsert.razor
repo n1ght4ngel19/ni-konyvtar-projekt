@@ -1,0 +1,98 @@
+﻿@page "/book/create"
+@page "/book/edit/{Id:int}"
+
+@inject IBookRepository _bookRepository
+@inject NavigationManager _navigationManager
+
+<div class="row my-2">
+	<h3 class="card-title text-primary mb-3 ml-3">@Action book</h3>
+
+	<div class="col-6">
+		@if (isLoading)
+		{
+			// Loading
+			<div class="text-center">
+				<img src="/images/spinner-blue.gif">
+			</div>
+		}
+		else
+		{
+			<EditForm Model="Book" OnValidSubmit="UpdateInsert">
+				<DataAnnotationsValidator/>
+				@*<ValidationSummary/>*@
+				<div class="form-group">
+					<label>Title</label>
+					<InputText @bind-Value="Book.Title" class="form-control"></InputText>
+					<ValidationMessage For="() => Book.Title"></ValidationMessage>
+
+					<label>Author</label>
+					<InputText @bind-Value="Book.Author" class="form-control"></InputText>
+					<ValidationMessage For="() => Book.Author"></ValidationMessage>
+
+					<label>Publisher</label>
+					<InputText @bind-Value="Book.Publisher" class="form-control"></InputText>
+					<ValidationMessage For="() => Book.Publisher"></ValidationMessage>
+
+					<label>Publish Year</label>
+					<InputNumber @bind-Value="Book.PublishYear" class="form-control"></InputNumber>
+					<ValidationMessage For="() => Book.PublishYear"></ValidationMessage>
+
+					<label>Is Borrowed?</label>
+					<InputCheckbox @bind-Value="Book.IsBorrowed" class="form-check-inline"></InputCheckbox>
+					<ValidationMessage For="() => Book.IsBorrowed"></ValidationMessage>
+				</div>
+				<div class="form-group py-2">
+					<button class="btn btn-primary">@Action</button>
+					<NavLink href="/book" class="btn btn-secondary">Back to Index</NavLink>
+				</div>
+			</EditForm>
+		}
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	private BookDto Book { get; set; } = new BookDto();
+	private String Action { get; set; } = "Add";
+
+	private void UpdateInsert()
+	{
+		if(Book.BookId == 0)
+		{
+			// Create request
+			_bookRepository.Create(Book);
+		}
+		else
+		{
+			// Update request
+			_bookRepository.Update(Book);
+		}
+
+		_navigationManager.NavigateTo("/book");
+	}
+
+	public bool isLoading = true;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id == 0)
+		{
+			// Create request
+			isLoading = false;
+		}
+		else
+		{
+			// Update request
+			Action = "Edit";
+			await Task.Run(LoadBook);
+		}
+	}
+
+	private void LoadBook()
+	{
+		Book = _bookRepository.Get(Id);
+		isLoading = false;
+	}
+}
