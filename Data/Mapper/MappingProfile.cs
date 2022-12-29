@@ -8,6 +8,7 @@ namespace LibraryAppNi.Data.Mapper
         public MappingProfile()
         { 
             CreateMap<Book, BookDto>().ReverseMap();
-        }
+			CreateMap<Member, MemberDto>().ReverseMap();
+		}
     }
 }
