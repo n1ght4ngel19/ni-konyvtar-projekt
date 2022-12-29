@@ -1,0 +1,24 @@
+﻿@page "/book/create"
+@using LibraryAppNi.Data.Library;
+
+<div class="row my-2">
+	<h3 class="card-title text-primary mb-3 ml-3">@Title book</h3>
+
+	<div class="col-6">
+		<EditForm Model="bookDto">
+			<div class="form-group">
+				<label>Title</label>
+				<InputText @bind-Value="bookDto.Title" class="form-control"></InputText>
+			</div>
+			<div class="form-group py-2">
+				<button class="btn btn-primary">@Title</button>
+				<NavLink href="/book" class="btn btn-secondary">Back to Index</NavLink>
+			</div>
+		</EditForm>
+	</div>
+</div>
+
+@code {
+	private BookDto bookDto { get; set; } = new BookDto();
+	private String Title { get; set; } = "Add";
+}
