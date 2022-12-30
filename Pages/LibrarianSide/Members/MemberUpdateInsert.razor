@@ -21,11 +21,14 @@
 				<DataAnnotationsValidator />
 				@*<ValidationSummary/>*@
 				<div class="form-group">
-					<label>Name</label>
-                    @if (nameProblem)
+                    @if (!isNameValid) // TODO: Fix this
                     {
-					    <label>Nem megfelő név</label>
+						<label class="alert-danger">Name is not valid</label>
                     }
+					else
+					{
+						<label>Name</label>
+					}
                     <InputText @bind-Value="Member.Name" class="form-control"></InputText>
 					<ValidationMessage For="() => Member.Name"></ValidationMessage>
 
@@ -47,48 +50,39 @@
 </div>
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
+	[Parameter]
+	public int Id { get; set; }
 
-    private MemberDto Member { get; set; } = new MemberDto();
-    private String Action { get; set; } = "Add";
+	private MemberDto Member { get; set; } = new MemberDto();
+	private String Action { get; set; } = "Add";
+	public bool isLoading = true;
+	public bool isNameValid = true;
 
-    private void UpdateInsert()
-    {
-        if (Member.MemberId == 0)
-        {
-            if (!Member.Name.Equals(null) && !Member.Name.Equals("") && !Member.Name.Equals(" ") && (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{}".ToCharArray())) == -1)
-            {
-                // Create request
-                nameProblem = false;
-                _memberRepository.Create(Member);
+	private void UpdateInsert()
+	{
+		bool isNameEmpty = Member.Name.Equals(null) || Member.Name.Equals("");
+		bool nameContainsForbiddenCharacters = (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{} ".ToCharArray())) != -1;
 
-            }
-            else
-            {
-                nameProblem = true;
-            }
-        }
-        else
-        {
-            if (!Member.Name.Equals(null) && !Member.Name.Equals("") && !Member.Name.Equals(" ") && (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{}".ToCharArray())) == -1)
-            {
-                // Update request
-                nameProblem = false;
-                _memberRepository.Update(Member);
-            }
-            else
-            {
-                nameProblem = true;
-            }
-        }
+		if (!isNameEmpty && !nameContainsForbiddenCharacters)
+		{
+			if (Member.MemberId == 0)
+			{
+				// Create request
+				_memberRepository.Create(Member);
+			}
+			else
+			{
+				// Update request
+				_memberRepository.Update(Member);
+			}
 
-        if (!nameProblem)
-		    _navigationManager.NavigateTo("/memberslist");
+			_navigationManager.NavigateTo("/memberslist");
+		}
+		else
+		{
+			isNameValid = false;
+		}
 	}
-
-    public bool isLoading = true;
-    public bool nameProblem = false;
 
 	protected override async Task OnInitializedAsync()
 	{

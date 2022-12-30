@@ -1,6 +1,8 @@
-﻿@page "/borrow"
+﻿@page "/borrowslist"
 
 @inject IBorrowRepository _borrowRepository
+@inject IBookRepository _bookRepository
+@inject IMemberRepository _memberRepository
 @inject IJSRuntime _jsRuntime
 
 <_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
@@ -29,10 +31,10 @@
                     {
                         <tr>
                             <td>
-                                @Borrow.BookId
+                                @_bookRepository.Get(@Borrow.BookId).Title
                             </td>
                             <td>
-                                @Borrow.MemberId
+								@_memberRepository.Get(@Borrow.MemberId).Name
                             </td>
                             <td>
                                 @Borrow.BorrowDate

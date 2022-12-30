@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LibraryAppNi.Data.Database;
 using LibraryAppNi.Data.Library;
 using LibraryAppNi.Data.Repository.IRepository;

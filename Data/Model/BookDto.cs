@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryAppNi.Data.Library
 {
@@ -6,14 +6,14 @@ namespace LibraryAppNi.Data.Library
     {
         public int BookId { get; set; }
         [Required]
-        public String Title { get; set; }
+        public string Title { get; set; }
         [Required]
-        public String Author { get; set; }
+        public string Author { get; set; }
         [Required]
-        public String Publisher { get; set; }
+        public string Publisher { get; set; }
         [Required]
         public int PublishYear { get; set; }
         [Required]
-        public Boolean IsBorrowed { get; set; }
+        public bool IsBorrowed { get; set; }
     }
 }

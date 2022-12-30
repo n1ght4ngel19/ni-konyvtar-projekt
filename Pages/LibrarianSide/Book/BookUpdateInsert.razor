@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group py-2">
 					<button class="btn btn-primary">@Action</button>
-					<NavLink href="/book" class="btn btn-secondary">Back to Index</NavLink>
+					<NavLink href="/bookslist" class="btn btn-secondary">Back to Index</NavLink>
 				</div>
 			</EditForm>
 		}
@@ -56,23 +56,6 @@
 
 	private BookDto Book { get; set; } = new BookDto();
 	private String Action { get; set; } = "Add";
-
-	private void UpdateInsert()
-	{
-		if(Book.BookId == 0)
-		{
-			// Create request
-			_bookRepository.Create(Book);
-		}
-		else
-		{
-			// Update request
-			_bookRepository.Update(Book);
-		}
-
-		_navigationManager.NavigateTo("/book");
-	}
-
 	public bool isLoading = true;
 
 	protected override async Task OnInitializedAsync()
@@ -88,6 +71,22 @@
 			Action = "Edit";
 			await Task.Run(LoadBook);
 		}
+	}
+
+	private void UpdateInsert()
+	{
+		if(Book.BookId == 0)
+		{
+			// Create request
+			_bookRepository.Create(Book);
+		}
+		else
+		{
+			// Update request
+			_bookRepository.Update(Book);
+		}
+
+		_navigationManager.NavigateTo("/bookslist");
 	}
 
 	private void LoadBook()

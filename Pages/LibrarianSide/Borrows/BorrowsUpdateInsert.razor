@@ -1,7 +1,7 @@
 ﻿@page "/borrow/create"
 @page "/borrow/edit/{Id:int}"
 
-<h3>BorrowsUpdateInsert</h3>
+<h3>Add borrow</h3>
 
 @inject IBookRepository _bookRepository
 @inject IMemberRepository _memberRepository
@@ -12,168 +12,109 @@
 @using static System.Net.WebRequestMethods;
 
 
-@if (Borrows == null || Members == null || Books == null)
+@if (isLoading)
 { 
-    <p><em>Loading...</em></p>
+	// Loading
+	<div class="text-center">
+		<img src="/images/spinner-blue.gif">
+	</div>
 }
 else
-{ 
-    <div class="row">
-        <div class="col-md-4">
-            <label for="Books" class="control-label">Books</label>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="Members" class="control-label">Members</label>
-        </div>
-    </div>
-    <div class="row" style="padding-top:10px">
-        <div class="col-md-4">
-            <select class="form-control" onchange="@BookClicked">
-                <option value="">-- Select Book --</option>
-                @foreach (var book in Books)
-                { 
-                    <option value="@book.BookId">@book.Title</option>
-                } 
-            </select>
-        </div>
-        <div class="col-md-4">
-            <select class="form-control" onchange="@MemberClicked">
-                <option value="">-- Select Member --</option>
-                @foreach (var member in Members)
-                { 
-                    <option value="@member.MemberId">@member.Name</option>
-                } 
-            </select>
-        </div>
-        <div class="form-group py-2">
-            <button class="btn btn-primary">@Action</button>
-            <NavLink href="/memberslist" class="btn btn-secondary">Back to Index</NavLink>
-        </div>
-    </div>
-    <div class="row" style="padding-top:50px">
-        <div class="col-md-4">
-            <label class="control-label">Book Name: @bookName</label>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">Member Name: @memberName</label>
-        </div>
-    </div>
+{
+	<EditForm Model="Borrow" OnValidSubmit="UpdateInsert">
+		<DataAnnotationsValidator/>
+		@*<ValidationSummary/>*@
+		<div class="form-group">
+			<label>Select book</label>
+			<InputSelect @bind-Value="Borrow.BookId" class="form-select">
+				@foreach (BookDto book in Books)
+				{
+					<option value="@book.BookId">@book.Title (ID: @book.BookId)</option>
+				}
+			</InputSelect>
+			<ValidationMessage For="() => Borrow.BookId"></ValidationMessage>
 
-} 
+			<label>Select member</label>
+			<InputSelect @bind-Value="Borrow.MemberId" class="form-select">
+				@foreach (MemberDto member in Members)
+				{
+					<option value="@member.MemberId">@member.Name (ID: @member.MemberId)</option>
+				}
+			</InputSelect>
+			<ValidationMessage For="() => Borrow.MemberId"></ValidationMessage>
+
+			<label>Borrow Date</label>
+			<InputDate @bind-Value="Borrow.BorrowDate" class="form-check-inline"></InputDate>
+			<ValidationMessage For="() => Borrow.BorrowDate"></ValidationMessage>
+
+			<label>Borrow Deadline</label>
+			<InputDate @bind-Value="Borrow.BorrowDeadline" class="form-check-inline"></InputDate>
+			<ValidationMessage For="() => Borrow.BorrowDeadline"></ValidationMessage>
+
+		</div>
+		<div class="form-group py-2">
+			<button class="btn btn-primary">@Action</button>
+			<NavLink href="/borrowslist" class="btn btn-secondary">Back to Index</NavLink>
+		</div>
+	</EditForm>
+}
+
 @code {
-    [Parameter]
-    public int Id { get; set; }
+	[Parameter]
+	public int Id { get; set; }
 
-    private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
-    private IEnumerable<BorrowDto> Borrows { get; set; } = new List<BorrowDto>();
-    private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+	private BorrowDto Borrow { get; set; } = new BorrowDto();
+	private String Action { get; set; } = "Add";
+	public bool isLoading = true;
+	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
+	private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
 
-    private String Action { get; set; } = "Add";
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Run(LoadBookAndMemberData);
 
+		if (Id == 0)
+		{
+			// Create request
+			isLoading = false;
+		}
+		else
+		{
+			// Update request
+			Action = "Edit";
+			await Task.Run(LoadBorrow);
+		}
 
-    public bool isLoading = true;
-    private int DeleteBorrowId { get; set; } = 0;
+		LoadBookAndMemberData();
+	}
 
-    int borrowId { get; set; }
-    string memberName { get; set; }
-    string bookName { get; set; }
-    DateTime expirationDate { get; set; }
+	private void UpdateInsert()
+	{
+		if (Borrow.BorrowId == 0)
+		{
+		// Create request
+			_borrowRepository.Create(Borrow);
+			(_bookRepository.Get(Borrow.BookId)).IsBorrowed = true;
+		}
+		else
+		{
+		// Update request
+			_borrowRepository.Update(Borrow);
+		}
 
+		_navigationManager.NavigateTo("/borrowslist");
+	}
 
-    private BorrowDto Borrow { get; set; } = new BorrowDto();
+	private void LoadBorrow()
+	{
+		Borrow = _borrowRepository.Get(Id);
+		isLoading = false;
+	}
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(LoadElements);
-
-        if (Id == 0)
-        {
-            // Create request
-            isLoading = false;
-        }
-        else
-        {
-            // Update request
-            Action = "Edit";
-            await Task.Run(LoadBorrow);
-        }
-    }
-
-    private void LoadElements()
-    {
-        Books = _bookRepository.GetAll();
-        Borrows = _borrowRepository.GetAll();
-        Members = _memberRepository.GetAll();
-        isLoading = false;
-    }
-
-
-    void BookClicked(ChangeEventArgs bookEvent)
-    {
-        bookName = "";
-
-        foreach (var book in Books)
-        {
-            if (book.BookId == Convert.ToInt32(bookEvent.Value.ToString()))
-                bookName = book.Title;
-        }
-        this.StateHasChanged();
-    }
-
-    void MemberClicked(ChangeEventArgs memberEvent)
-    {
-        memberName = "";
-
-        foreach (var member in Members)
-        {
-            if (member.MemberId == Convert.ToInt32(memberEvent.Value.ToString()))
-                memberName = member.Name;
-        }
-
-        this.StateHasChanged();
-    }
-
-
-
-    private void HandleDelete(int Id)
-    {
-        DeleteBorrowId = Id;
-        _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
-    }
-
-    private async Task ConfirmDeleteClick(bool isConfirmed)
-    {
-        if (isConfirmed && DeleteBorrowId != 0)
-        {
-            _bookRepository.Delete(DeleteBorrowId);
-            LoadElements();
-            _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
-        }
-    }
-
-    private void UpdateInsert()
-    {
-        if (Borrow.BorrowId == 0)
-        {
-            // Create request
-            _borrowRepository.Create(Borrow);
-            (_bookRepository.Get(Borrow.BookId)).IsBorrowed = true;
-        }
-        else
-        {
-            // Update request
-            _borrowRepository.Update(Borrow);
-        }
-
-        _navigationManager.NavigateTo("/borrows");
-    }
-
-    
-
-    private void LoadBorrow()
-    {
-        Borrow = _borrowRepository.Get(Id);
-        isLoading = false;
-    }
-
+	private void LoadBookAndMemberData()
+	{
+		Books = _bookRepository.GetAll();
+		Members = _memberRepository.GetAll();
+		isLoading = false;
+	}
 }
