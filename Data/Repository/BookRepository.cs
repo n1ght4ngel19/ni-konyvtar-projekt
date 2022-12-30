@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using LibraryAppNi.Data.Database;
 using LibraryAppNi.Data.Library;
 using LibraryAppNi.Data.Repository.IRepository;
@@ -61,7 +60,7 @@ namespace LibraryAppNi.Data.Repository
         public BookDto Update(BookDto bookDto)
         {
             var book = _db.Books.FirstOrDefault(u => u.BookId == bookDto.BookId);
-        
+
             if (book != null)
             {
                 book.Title = bookDto.Title;

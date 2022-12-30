@@ -6,10 +6,10 @@ namespace LibraryAppNi.Data.Mapper
     public class MappingProfile : Profile
     {
         public MappingProfile()
-        { 
+        {
             CreateMap<Book, BookDto>().ReverseMap();
-			CreateMap<Member, MemberDto>().ReverseMap();
-			CreateMap<Borrow, BorrowDto>().ReverseMap();
-		}
+            CreateMap<Member, MemberDto>().ReverseMap();
+            CreateMap<Borrow, BorrowDto>().ReverseMap();
+        }
     }
 }

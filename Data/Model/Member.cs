@@ -6,10 +6,10 @@ namespace LibraryAppNi.Data.Library
     {
         public int MemberId { get; set; }
         [Required]
-		public string Name { get; set; } // TODO: Validate name
+        public string Name { get; set; } // TODO: Validate name
         [Required]
-		public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         [Required]
-		public String Address { get; set; }
+        public String Address { get; set; }
     }
 }
