@@ -37,10 +37,10 @@
 								@_memberRepository.Get(@Borrow.MemberId).Name
                             </td>
                             <td>
-                                @Borrow.BorrowDate
+                                @((Borrow.BorrowDate).ToLongDateString())
                             </td>
                             <td>
-                                @Borrow.BorrowDeadline
+                                @((Borrow.BorrowDeadline).ToLongDateString())
                             </td>
                             <td>
                                 <NavLink href="@($"/borrow/edit/{Borrow.BorrowId}")" class="btn btn-primary">Edit</NavLink>
@@ -95,6 +95,11 @@
     {
         if (isConfirmed && DeleteBorrowId != 0)
         {
+            foreach (var borrows in Borrows)
+            {
+                if (DeleteBorrowId == borrows.BorrowId)
+                    _bookRepository.MarkBorrowed(borrows.BookId);
+            }
             _borrowRepository.Delete(DeleteBorrowId);
             LoadBorrows();
             _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");

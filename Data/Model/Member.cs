@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryAppNi.Data.Library
 {
@@ -6,7 +6,7 @@ namespace LibraryAppNi.Data.Library
     {
         public int MemberId { get; set; }
         [Required]
-        public string Name { get; set; } // TODO: Validate name
+        public string Name { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
         [Required]

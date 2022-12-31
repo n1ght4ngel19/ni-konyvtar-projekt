@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LibraryAppNi.Data.Database;
 using LibraryAppNi.Data.Library;
 using LibraryAppNi.Data.Repository.IRepository;
@@ -76,6 +76,18 @@ namespace LibraryAppNi.Data.Repository
             }
 
             return bookDto;
+        }
+
+        public BookDto MarkBorrowed(int bookId)
+        {
+            var book = _db.Books.FirstOrDefault(u => u.BookId == bookId);
+
+            book.IsBorrowed = book.IsBorrowed != true;
+
+            _db.Books.Update(book);
+            _db.SaveChanges();
+
+            return _mapper.Map<Book, BookDto>(book);
         }
     }
 }

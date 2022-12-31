@@ -50,54 +50,55 @@
 </div>
 
 @code {
-	[Parameter]
-	public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
-	private MemberDto Member { get; set; } = new MemberDto();
-	private String Action { get; set; } = "Add";
-	public bool isLoading = true;
-	public bool isNameValid = true;
+    private MemberDto Member { get; set; } = new MemberDto();
+    private String Action { get; set; } = "Add";
+    public bool isLoading = true;
+    public bool isNameValid = true;
 
-	private void UpdateInsert()
-	{
-		bool isNameEmpty = Member.Name.Equals(null) || Member.Name.Equals("");
-		bool nameContainsForbiddenCharacters = (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{} ".ToCharArray())) != -1;
+    private void UpdateInsert()
+    {
+        bool isNameEmpty = Member.Name.Equals(null) || Member.Name.Equals("");
+        bool nameContainsForbiddenCharacters = (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{} ".ToCharArray())) != -1;
 
-		if (!isNameEmpty && !nameContainsForbiddenCharacters)
-		{
-			if (Member.MemberId == 0)
-			{
-				// Create request
-				_memberRepository.Create(Member);
-			}
-			else
-			{
-				// Update request
-				_memberRepository.Update(Member);
-			}
+        if (!isNameEmpty && !nameContainsForbiddenCharacters)
+        {
+            if (Member.MemberId == 0)
+            {
+                // Create request
+                _memberRepository.Create(Member);
+            }
+            else
+            {
+                // Update request
+                _memberRepository.Update(Member);
+            }
 
-			_navigationManager.NavigateTo("/memberslist");
-		}
-		else
-		{
-			isNameValid = false;
-		}
-	}
+            _navigationManager.NavigateTo("/memberslist");
+        }
+        else
+        {
+            isNameValid = false;
+        }
+    }
 
-	protected override async Task OnInitializedAsync()
-	{
-		if (Id == 0)
-		{
-			// Create request
-			isLoading = false;
-		}
-		else
-		{
-			// Update request
-			Action = "Edit";
-			await Task.Run(LoadBook);
-		}
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == 0)
+        {
+            // Create request
+            isLoading = false;
+        }
+        else
+        {
+            // Update request
+            Action = "Edit";
+            await Task.Run(LoadBook);
+        }
+        Member.BirthDate = DateTime.Today;
+    }
 
 	private void LoadBook()
 	{

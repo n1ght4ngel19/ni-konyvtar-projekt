@@ -60,50 +60,58 @@ else
 }
 
 @code {
-	[Parameter]
-	public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
-	private BorrowDto Borrow { get; set; } = new BorrowDto();
-	private String Action { get; set; } = "Add";
-	public bool isLoading = true;
-	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
-	private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+    private BorrowDto Borrow { get; set; } = new BorrowDto();
+    private String Action { get; set; } = "Add";
+    public bool isLoading = true;
+    private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
+    private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
 
-	protected override async Task OnInitializedAsync()
-	{
-		await Task.Run(LoadBookAndMemberData);
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadBookAndMemberData);
 
-		if (Id == 0)
-		{
-			// Create request
-			isLoading = false;
-		}
-		else
-		{
-			// Update request
-			Action = "Edit";
-			await Task.Run(LoadBorrow);
-		}
+        if (Id == 0)
+        {
+            // Create request
+            isLoading = false;
+        }
+        else
+        {
+            // Update request
+            Action = "Edit";
+            await Task.Run(LoadBorrow);
+        }
 
-		LoadBookAndMemberData();
-	}
+        LoadBookAndMemberData();
+        Borrow.BorrowDeadline = (DateTime.Today).AddDays(1);
+        Borrow.BorrowDate = DateTime.Today;
+    }
 
-	private void UpdateInsert()
-	{
-		if (Borrow.BorrowId == 0)
-		{
-		// Create request
-			_borrowRepository.Create(Borrow);
-			(_bookRepository.Get(Borrow.BookId)).IsBorrowed = true;
-		}
-		else
-		{
-		// Update request
-			_borrowRepository.Update(Borrow);
-		}
+    private void UpdateInsert()
+    {
+        if (Borrow.BorrowDate <= Borrow.BorrowDeadline)
+        {
+            if (Borrow.BorrowId == 0)
+            {
+                // Create request
+                _borrowRepository.Create(Borrow);
+                _bookRepository.MarkBorrowed(Borrow.BookId);
+                
+                LoadBookAndMemberData();
+            }
+            else
+            {
+                // Update request
+                _borrowRepository.Update(Borrow);
+                LoadBookAndMemberData();
+            }
 
-		_navigationManager.NavigateTo("/borrowslist");
-	}
+            _navigationManager.NavigateTo("/borrowslist");
+        }
+    }
 
 	private void LoadBorrow()
 	{
@@ -113,7 +121,7 @@ else
 
 	private void LoadBookAndMemberData()
 	{
-		Books = _bookRepository.GetAll();
+        Books = _bookRepository.GetAll().Where(p => p.IsBorrowed == false);
 		Members = _memberRepository.GetAll();
 		isLoading = false;
 	}
