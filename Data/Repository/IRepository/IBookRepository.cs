@@ -1,4 +1,4 @@
-﻿using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Library;
 
 namespace LibraryAppNi.Data.Repository.IRepository
 {
@@ -9,5 +9,6 @@ namespace LibraryAppNi.Data.Repository.IRepository
         public int Delete(int bookId);
         public BookDto Get(int bookId);
         public IEnumerable<BookDto> GetAll();
+        public BookDto MarkBorrowed(int bookId);
     }
 }

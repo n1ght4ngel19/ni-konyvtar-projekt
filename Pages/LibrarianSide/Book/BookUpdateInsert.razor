@@ -36,14 +36,10 @@
 					<label>Publish Year</label>
 					<InputNumber @bind-Value="Book.PublishYear" class="form-control"></InputNumber>
 					<ValidationMessage For="() => Book.PublishYear"></ValidationMessage>
-
-					<label>Is Borrowed?</label>
-					<InputCheckbox @bind-Value="Book.IsBorrowed" class="form-check-inline"></InputCheckbox>
-					<ValidationMessage For="() => Book.IsBorrowed"></ValidationMessage>
 				</div>
 				<div class="form-group py-2">
 					<button class="btn btn-primary">@Action</button>
-					<NavLink href="/book" class="btn btn-secondary">Back to Index</NavLink>
+					<NavLink href="/bookslist" class="btn btn-secondary">Back to Index</NavLink>
 				</div>
 			</EditForm>
 		}
@@ -51,15 +47,32 @@
 </div>
 
 @code {
-	[Parameter]
-	public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
-	private BookDto Book { get; set; } = new BookDto();
-	private String Action { get; set; } = "Add";
+    private BookDto Book { get; set; } = new BookDto();
+    private String Action { get; set; } = "Add";
+    public bool isLoading = true;
 
-	private void UpdateInsert()
-	{
-		if(Book.BookId == 0)
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == 0)
+        {
+            // Create request
+            isLoading = false;
+        }
+        else
+        {
+            // Update request
+            Action = "Edit";
+            await Task.Run(LoadBook);
+        }
+    }
+
+    private void UpdateInsert()
+    {
+        Book.IsBorrowed = false;
+        if(Book.BookId == 0)
 		{
 			// Create request
 			_bookRepository.Create(Book);
@@ -70,24 +83,7 @@
 			_bookRepository.Update(Book);
 		}
 
-		_navigationManager.NavigateTo("/book");
-	}
-
-	public bool isLoading = true;
-
-	protected override async Task OnInitializedAsync()
-	{
-		if (Id == 0)
-		{
-			// Create request
-			isLoading = false;
-		}
-		else
-		{
-			// Update request
-			Action = "Edit";
-			await Task.Run(LoadBook);
-		}
+		_navigationManager.NavigateTo("/bookslist");
 	}
 
 	private void LoadBook()
