@@ -1,6 +1,8 @@
 ﻿@page "/borrow/create"
 @page "/borrow/edit/{Id:int}"
 
+@inject IJSRuntime _jsRuntime
+
 <h3>Add borrow</h3>
 
 @inject IBookRepository _bookRepository
@@ -30,6 +32,11 @@ else
 				@foreach (BookDto book in Books)
 				{
 					<option value="@book.BookId">@book.Title (ID: @book.BookId)</option>
+				}
+				@if (Books.Count() == 0)
+				{
+					
+					<option>No book available</option>
 				}
 			</InputSelect>
 			<ValidationMessage For="() => Borrow.BookId"></ValidationMessage>

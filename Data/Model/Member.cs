@@ -10,6 +10,6 @@ namespace LibraryAppNi.Data.Library
         [Required]
         public DateTime BirthDate { get; set; }
         [Required]
-        public String Address { get; set; }
+        public string Address { get; set; }
     }
 }
