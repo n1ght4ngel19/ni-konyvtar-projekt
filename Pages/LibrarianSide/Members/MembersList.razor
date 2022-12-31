@@ -94,7 +94,7 @@
 		{
 			_memberRepository.Delete(DeleteMemberId);
 			LoadMembers();
-			_jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+			await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
 		}
 	}
 }

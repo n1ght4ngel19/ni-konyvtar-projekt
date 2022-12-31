@@ -15,7 +15,6 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,5 +33,7 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.MapControllers();
 
 app.Run();

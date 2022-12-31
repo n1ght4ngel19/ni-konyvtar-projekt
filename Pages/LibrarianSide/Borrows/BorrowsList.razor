@@ -102,7 +102,7 @@
             }
             _borrowRepository.Delete(DeleteBorrowId);
             LoadBorrows();
-            _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+            await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
         }
     }
 }

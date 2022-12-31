@@ -99,7 +99,7 @@
 		{
 			_bookRepository.Delete(DeleteBookId);
 			LoadBooks();
-			_jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+			await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
 		}
 	}
 }
