@@ -41,6 +41,8 @@ internal class Program
         app.MapControllers();
         app.MapFallbackToFile("index.html");
 
+        app.MapControllers();
+
         app.Run();
 
         app.MapWhen(ctx => ctx.Request.Host.Port == 5001 ||
