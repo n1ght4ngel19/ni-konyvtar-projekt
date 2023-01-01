@@ -1,0 +1,106 @@
+﻿@page "/bookslist"
+@using LibraryAppNi.Shared.Model.DTO;
+
+@inject IBookRepository _bookRepository
+@inject IJSRuntime _jsRuntime
+
+<_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
+<div class="row mt-4">
+	<div class="col-6">
+		<h3 class="card-title text-primary">Books List</h3>
+	</div>
+	<div class="col-5 offset-1">
+		<a href="/book/create" class="btn btn-primary form-control">Add new book</a>
+	</div>
+	<div class="col-12">
+		@if (Books.Any())
+		{
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Publisher</th>
+						<th>Publish Year</th>
+						<th>Is Borrowed?</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var Book in Books)
+					{
+						<tr>
+							<td>
+								@Book.Title
+							</td>
+							<td>
+								@Book.Author
+							</td>
+							<td>
+								@Book.Publisher
+							</td>
+							<td>
+								@Book.PublishYear
+							</td>
+							<td>
+								@Book.IsBorrowed
+							</td>
+							<td>
+								<NavLink href="@($"/book/edit/{Book.BookId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleDelete(Book.BookId)">Delete</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			if (isLoading)
+			{
+				// Loading
+				<div class="text-center">
+					<img src="/images/spinner-blue.gif">	
+				</div>
+			}
+			else
+			{
+				// No records in the DB
+				<p>No records found in the database.</p>
+			}
+		}
+	</div>
+</div>
+
+@code {
+	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
+	public bool isLoading = true;
+	private int DeleteBookId { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Run(LoadBooks);
+	}
+
+	private void LoadBooks()
+	{
+		Books = _bookRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void HandleDelete(int Id)
+	{
+		DeleteBookId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private async Task ConfirmDeleteClick(bool isConfirmed)
+	{
+		if (isConfirmed && DeleteBookId != 0)
+		{
+			_bookRepository.Delete(DeleteBookId);
+			LoadBooks();
+			await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+		}
+	}
+}
