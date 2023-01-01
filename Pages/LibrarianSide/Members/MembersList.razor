@@ -1,6 +1,7 @@
 ﻿@page "/memberslist"
 
 @inject IMemberRepository _memberRepository
+@inject IBorrowRepository _borrowRepository
 @inject IJSRuntime _jsRuntime
 
 <_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
@@ -39,6 +40,18 @@
 							<td>
 								@Member.Address
 							</td>
+							@foreach (var borrow in Borrows)
+							{
+								@if (borrow.MemberId == Member.MemberId)
+								{
+									@if (borrow.BorrowDeadline < DateTime.Today)
+									{
+										<td style="color: red">
+											@borrow.BorrowDeadline
+										</td>
+									}
+								}
+							}
 							<td>
 								<NavLink href="@($"/memberslist/edit/{Member.MemberId}")" class="btn btn-primary">Edit</NavLink>
 								<button class="btn btn-danger" @onclick="() => HandleDelete(Member.MemberId)">Delete</button>
@@ -68,6 +81,7 @@
 
 @code {
 	private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+	private IEnumerable<BorrowDto> Borrows{ get; set; } = new List<BorrowDto>();
 	public bool isLoading = true;
 	private int DeleteMemberId { get; set; } = 0;
 
@@ -79,6 +93,12 @@
 	private void LoadMembers()
 	{
 		Members = _memberRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void LoadBorrows()
+	{
+		Borrows = _borrowRepository.GetAll();
 		isLoading = false;
 	}
 

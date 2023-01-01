@@ -44,6 +44,7 @@ else
 							<th>Author</th>
 							<th>Publisher</th>
 							<th>Publish Year</th>
+							<th>Publish Year</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -93,6 +94,8 @@ else
 							<th>Author</th>
 							<th>Publisher</th>
 							<th>Publish Year</th>
+							<th>Borrower</th>
+							<th>Deadline</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -115,12 +118,9 @@ else
 										<td>
 											@book.PublishYear
 										</td>
-										<td>
-											@book.PublishYear
-										</td>
 										@foreach (var member2 in Members)
 										{
-											@if (member2.MemberId != member.MemberId)
+											@if (member2.MemberId == borrow.MemberId)
 											{
 												<td>
 													@member2.Name
