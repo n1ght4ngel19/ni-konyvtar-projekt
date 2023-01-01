@@ -1,7 +1,8 @@
 ﻿@page "/bookslist"
+@using LibraryAppNi.LibrarianApp.ViewModels;
 @using LibraryAppNi.Shared.Model.DTO;
 
-@inject IBookRepository _bookRepository
+@inject IBooksListViewModel _bookRepository
 @inject IJSRuntime _jsRuntime
 
 <_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
@@ -13,7 +14,7 @@
 		<a href="/book/create" class="btn btn-primary form-control">Add new book</a>
 	</div>
 	<div class="col-12">
-		@if (Books.Any())
+        @if (_bookRepository.Books.Any())
 		{
 			<table class="table table-bordered">
 				<thead>
@@ -27,7 +28,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach (var Book in Books)
+                    @foreach (var Book in _bookRepository.Books)
 					{
 						<tr>
 							<td>
@@ -47,7 +48,6 @@
 							</td>
 							<td>
 								<NavLink href="@($"/book/edit/{Book.BookId}")" class="btn btn-primary">Edit</NavLink>
-								<button class="btn btn-danger" @onclick="() => HandleDelete(Book.BookId)">Delete</button>
 							</td>
 						</tr>
 					}
@@ -56,51 +56,16 @@
 		}
 		else
 		{
-			if (isLoading)
-			{
-				// Loading
-				<div class="text-center">
-					<img src="/images/spinner-blue.gif">	
-				</div>
-			}
-			else
-			{
+			
+			
+			
 				// No records in the DB
 				<p>No records found in the database.</p>
-			}
 		}
+		
 	</div>
 </div>
 
 @code {
-	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
-	public bool isLoading = true;
-	private int DeleteBookId { get; set; } = 0;
-
-	protected override async Task OnInitializedAsync()
-	{
-		await Task.Run(LoadBooks);
-	}
-
-	private void LoadBooks()
-	{
-		Books = _bookRepository.GetAll();
-		isLoading = false;
-	}
-
-	private void HandleDelete(int Id)
-	{
-		DeleteBookId = Id;
-		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
-	}
-
-	private async Task ConfirmDeleteClick(bool isConfirmed)
-	{
-		if (isConfirmed && DeleteBookId != 0)
-		{
-			_bookRepository.Delete(DeleteBookId);
-			LoadBooks();
-			await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
-		}
-	}
+	
 }

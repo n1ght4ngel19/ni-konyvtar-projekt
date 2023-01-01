@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryAppNi.Server.DataBase;
 using LibraryAppNi.Shared.Model.BaseClass;
+using LibraryAppNi.Shared.Model.DTO;
 
 namespace LibraryAppNi.Server.Controllers
 {
@@ -18,14 +19,14 @@ namespace LibraryAppNi.Server.Controllers
 
         // GET: api/Book
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
             return await _context.Books.ToListAsync();
         }
 
         // GET: api/Book/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public async Task<ActionResult<BookDto>> GetBook(int id)
         {
             var book = await _context.Books.FindAsync(id);
 
@@ -40,7 +41,7 @@ namespace LibraryAppNi.Server.Controllers
         // PUT: api/Book/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public async Task<IActionResult> PutBook(int id, BookDto book)
         {
             if (id != book.BookId)
             {
@@ -71,7 +72,7 @@ namespace LibraryAppNi.Server.Controllers
         // POST: api/Book
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<BookDto>> PostBook(BookDto book)
         {
             _context.Books.Add(book);
             await _context.SaveChangesAsync();

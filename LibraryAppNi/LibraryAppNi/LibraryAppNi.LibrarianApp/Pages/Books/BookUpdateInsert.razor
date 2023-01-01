@@ -1,8 +1,10 @@
 ﻿@page "/book/create"
 @page "/book/edit/{Id:int}"
+@using LibraryAppNi.LibrarianApp.ViewModels;
+@using LibraryAppNi.Shared.Model.BaseClass;
 @using LibraryAppNi.Shared.Model.DTO;
 
-@inject IBookRepository _bookRepository
+@inject IBooksUpdateInsertViewModel _bookRepository
 @inject NavigationManager _navigationManager
 
 <div class="row my-2">
@@ -51,7 +53,7 @@
     [Parameter]
     public int Id { get; set; }
 
-    private BookDto Book { get; set; } = new BookDto();
+    private Book Book { get; set; } = new Book();
     private String Action { get; set; } = "Add";
     public bool isLoading = true;
 
@@ -62,12 +64,7 @@
             // Create request
             isLoading = false;
         }
-        else
-        {
-            // Update request
-            Action = "Edit";
-            await Task.Run(LoadBook);
-        }
+        
     }
 
     private void UpdateInsert()
@@ -76,20 +73,14 @@
         if(Book.BookId == 0)
 		{
 			// Create request
-			_bookRepository.Create(Book);
+			_bookRepository.CreateBook(Book);
 		}
 		else
 		{
 			// Update request
-			_bookRepository.Update(Book);
+			_bookRepository.UpdateBook(Book);
 		}
 
 		_navigationManager.NavigateTo("/bookslist");
-	}
-
-	private void LoadBook()
-	{
-		Book = _bookRepository.Get(Id);
-		isLoading = false;
 	}
 }

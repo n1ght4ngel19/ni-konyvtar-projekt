@@ -1,20 +1,13 @@
 using LibraryAppNi.Shared.Model.BaseClass;
-using Microsoft.AspNetCore.Components;
-using System;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
-using System.Text;
 using Newtonsoft.Json;
 
-namespace LibraryAppNi.Client.ViewModels
+namespace LibraryAppNi.LibrarianApp.ViewModels
 {
-    public class MembersMainViewViewModel : IMembersMainViewViewModel
+    public class BooksListViewModel : IBooksListViewModel
     {
-        public List<Book> Books { get; set; } = new List<Book>();
-
-
         private const string Url = "http://localhost:5000/api/book";
 
+        public List<Book> Books { get; set; }
         public IEnumerable<Book> GetBooks()
         {
             using (var client = new HttpClient())
