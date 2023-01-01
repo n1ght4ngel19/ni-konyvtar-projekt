@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace LibraryAppNi.Server.DataBase
+namespace LibraryAppNi.Shared.DataBase
 {
     public class LibraryDbContext : DbContext
     {

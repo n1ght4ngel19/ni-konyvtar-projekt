@@ -1,6 +1,6 @@
 using LibraryAppNi.Shared.Model.DTO;
 
-namespace LibraryAppNi.Server.Repository.IRepository
+namespace LibraryAppNi.Shared.Repository.IRepository
 {
     public interface IBorrowRepository
     {

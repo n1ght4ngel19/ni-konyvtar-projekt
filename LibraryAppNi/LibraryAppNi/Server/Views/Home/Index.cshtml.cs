@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MultipleBlazorApps.Server.Controllers;
+namespace LibraryAppNi.Server.Views.Home;
 
 public class HomeController : Controller
 {

@@ -1,5 +1,6 @@
 ﻿@page "/borrowslist"
 @using LibraryAppNi.Shared.Model.DTO;
+@using LibraryAppNi.Shared.Repository.IRepository;
 
 @inject IBorrowRepository _borrowRepository
 @inject IBookRepository _bookRepository
@@ -98,8 +99,8 @@
         {
             foreach (var borrows in Borrows)
             {
-                if (DeleteBorrowId == borrows.BorrowId)
-                    _bookRepository.MarkBorrowed(borrows.BookId);
+                //if (DeleteBorrowId == borrows.BorrowId)
+                    //_bookRepository.MarkBorrowed(borrows.BookId);
             }
             _borrowRepository.Delete(DeleteBorrowId);
             LoadBorrows();

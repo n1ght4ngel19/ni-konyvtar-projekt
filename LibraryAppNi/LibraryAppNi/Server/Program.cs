@@ -1,4 +1,4 @@
-using LibraryAppNi.Server.DataBase;
+using LibraryAppNi.Shared.DataBase;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,8 +40,6 @@ internal class Program
         app.MapRazorPages();
         app.MapControllers();
         app.MapFallbackToFile("index.html");
-
-        app.MapControllers();
 
         app.Run();
 

@@ -1,5 +1,7 @@
 ﻿@page "/memberslist/create"
 @page "/memberslist/edit/{Id:int}"
+@using LibraryAppNi.Shared.Model.DTO;
+@using LibraryAppNi.Shared.Repository.IRepository;
 
 @inject IMemberRepository _memberRepository
 @inject NavigationManager _navigationManager

@@ -1,11 +1,10 @@
-using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
-using LibraryAppNi.Server.DataBase;
-using LibraryAppNi.Server.Repository.IRepository;
+using LibraryAppNi.Shared.DataBase;
 using LibraryAppNi.Shared.Model.BaseClass;
 using LibraryAppNi.Shared.Model.DTO;
+using LibraryAppNi.Shared.Repository.IRepository;
 
-namespace LibraryAppNi.Server.Repository
+namespace LibraryAppNi.Shared.Repository
 {
     public class BookRepository : IBookRepository
     {

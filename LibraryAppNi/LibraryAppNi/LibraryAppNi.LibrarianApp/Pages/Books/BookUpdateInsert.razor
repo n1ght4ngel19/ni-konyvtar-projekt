@@ -1,6 +1,7 @@
 ﻿@page "/book/create"
 @page "/book/edit/{Id:int}"
 @using LibraryAppNi.Shared.Model.DTO;
+@using LibraryAppNi.Shared.Repository.IRepository;
 
 @inject IBookRepository _bookRepository
 @inject NavigationManager _navigationManager

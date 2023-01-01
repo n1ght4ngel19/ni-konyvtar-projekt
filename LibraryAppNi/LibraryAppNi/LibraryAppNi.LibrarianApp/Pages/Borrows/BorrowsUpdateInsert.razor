@@ -1,6 +1,7 @@
 ﻿@page "/borrow/create"
 @page "/borrow/edit/{Id:int}"
 @using LibraryAppNi.Shared.Model.DTO;
+@using LibraryAppNi.Shared.Repository.IRepository;
 
 @inject IJSRuntime _jsRuntime
 
@@ -106,7 +107,7 @@ else
             {
                 // Create request
                 _borrowRepository.Create(Borrow);
-                _bookRepository.MarkBorrowed(Borrow.BookId);
+                //_bookRepository.MarkBorrowed(Borrow.BookId);
 
                 LoadBookAndMemberData();
             }

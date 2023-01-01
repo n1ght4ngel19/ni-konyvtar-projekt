@@ -1,11 +1,11 @@
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
-using LibraryAppNi.Server.DataBase;
-using LibraryAppNi.Server.Repository.IRepository;
+using LibraryAppNi.Shared.DataBase;
 using LibraryAppNi.Shared.Model.BaseClass;
 using LibraryAppNi.Shared.Model.DTO;
+using LibraryAppNi.Shared.Repository.IRepository;
 
-namespace LibraryAppNi.Server.Repository
+namespace LibraryAppNi.Shared.Repository
 {
     public class BorrowRepository : IBorrowRepository
     {
@@ -24,7 +24,7 @@ namespace LibraryAppNi.Server.Repository
 
         public int Delete(int id)
         {
-            var borrow= _db.Borrows.FirstOrDefault(borrow => borrow.BorrowId == id);
+            var borrow = _db.Borrows.FirstOrDefault(borrow => borrow.BorrowId == id);
 
             if (borrow != null)
             {
@@ -38,9 +38,9 @@ namespace LibraryAppNi.Server.Repository
 
         public BorrowDto Get(int id)
         {
-            var borrow= _db.Borrows.FirstOrDefault(borrow => borrow.BorrowId == id);
+            var borrow = _db.Borrows.FirstOrDefault(borrow => borrow.BorrowId == id);
 
-            if (borrow!= null)
+            if (borrow != null)
             {
                 return _mapper.Map<Borrow, BorrowDto>(borrow);
             }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LibraryAppNi.Server.DataBase;
 using LibraryAppNi.Shared.Model.BaseClass;
+using LibraryAppNi.Shared.DataBase;
 
 namespace LibraryAppNi.Server.Controllers
 {
