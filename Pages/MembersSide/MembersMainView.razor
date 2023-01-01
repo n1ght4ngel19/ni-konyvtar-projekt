@@ -1,75 +1,356 @@
 ﻿@page "/members"
 
 @inject IBookRepository _bookRepository
+@inject IMemberRepository _memberRepository
+@inject IBorrowRepository _borrowRepository
 @inject IJSRuntime _jsRuntime
 
-<div class="row mt-4">
-	<div class="col-6">
-		<h3 class="card-title text-primary">Books List</h3>
+@    using static System.Net.WebRequestMethods;
+    using LibraryAppNi.Data.Model;
+
+@if (isLoading)
+{
+	// Loading
+	<div class="text-center">
+		<img src="/images/spinner-blue.gif">
 	</div>
-	<div class="col-12">
-		@if (Books.Any())
-		{
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Publisher</th>
-						<th>Publish Year</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var Book in Books)
-					{
-						<tr>
-							<td>
-								@Book.Title
-							</td>
-							<td>
-								@Book.Author
-							</td>
-							<td>
-								@Book.Publisher
-							</td>
-							<td>
-								@Book.PublishYear
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		}
-		else
-		{
-			if (isLoading)
+}
+else
+{
+	<EditForm Model="member">
+		<DataAnnotationsValidator/>
+		<InputSelect @bind-Value="member.MemberId" class="form-select">
+			@foreach (MemberDto member in Members)
 			{
-				// Loading
-				<div class="text-center">
-					<img src="/images/spinner-blue.gif">	
-				</div>
+				<option value="@member.MemberId">@member.Name (ID: @member.MemberId)</option>
+			}
+		</InputSelect>
+	</EditForm>
+}
+
+@if (member.MemberId != 0)
+{
+    @if(GetBorrowedAmount(member.MemberId) >= 1){
+    <div class="row mt-4">
+		<div class="col-6">
+			<h3 class="card-title text-primary">Books List</h3>
+		</div>
+		<div class="col-12">
+			@if (Books.Any())
+			{
+				<h3>Borrowed Books</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Publish Year</th>
+							<th>Publish Year</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var borrow in Borrows)
+						{
+							@foreach (var book in Books)
+							{
+								@if (borrow.MemberId == member.MemberId && borrow.BookId == book.BookId)
+								{
+									<tr>
+										<td>
+											@book.Title
+										</td>
+										<td>
+											@book.Author
+										</td>
+										<td>
+											@book.Publisher
+										</td>
+										<td>
+											@book.PublishYear
+										</td>
+										@if (borrow.BorrowDeadline < DateTime.Today)
+										{
+											<td style="color: red">
+                                                    @((borrow.BorrowDeadline).ToLongDateString())
+											</td>
+										}
+										else
+										{
+											<td>
+                                                    @((borrow.BorrowDeadline).ToLongDateString())
+											</td>
+										}
+									</tr>
+								}
+							}
+						}
+					</tbody>
+				</table>
+
+				<h3>Other Books</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Publish Year</th>
+							<th>Borrower</th>
+							<th>Deadline</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var borrow in Borrows)
+						{
+							@foreach (var book in Books)
+							{
+								@if (borrow.MemberId != member.MemberId && borrow.BookId == book.BookId)
+								{
+									<tr>
+										<td>
+											@book.Title
+										</td>
+										<td>
+											@book.Author
+										</td>
+										<td>
+											@book.Publisher
+										</td>
+										<td>
+											@book.PublishYear
+										</td>
+										@foreach (var member2 in Members)
+										{
+											@if (member2.MemberId == borrow.MemberId)
+											{
+												<td>
+													@member2.Name
+												</td>
+											}
+										}
+										@if (borrow.BorrowDeadline < DateTime.Today)
+										{
+											<td style="color: red">
+                                                    @((borrow.BorrowDeadline).ToLongDateString())
+											</td>
+										}
+										else
+										{
+											<td>
+                                                @((borrow.BorrowDeadline).ToLongDateString())
+											</td>
+										}
+									</tr>
+								}
+							}
+						}
+					</tbody>
+				</table>
 			}
 			else
 			{
-				// No records in the DB
-				<p>No records found in the database.</p>
+				if (isLoading)
+				{
+					// Loading
+					<div class="text-center">
+						<img src="/images/spinner-blue.gif">	
+					</div>
+				}
+				else
+				{
+					// No records in the DB
+					<p>No records found in the database.</p>
+				}
 			}
-		}
-	</div>
-</div>
+		</div>
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4">
+		<div class="col-6">
+			<h3 class="card-title text-primary">Nincs Jelenleg kiölcsönzött könyvei</h3>
+            </div>
+            </div>
+
+            <h3>All Books</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                        <th>Publish Year</th>
+                        <th>Borrower</th>
+                        <th>Deadline</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var book in Books)
+                    {
+
+                        <tr>
+                            <td>
+                                @book.Title
+                            </td>
+                            <td>
+                                @book.Author
+                            </td>
+                            <td>
+                                @book.Publisher
+                            </td>
+                            <td>
+                                @book.PublishYear
+                            </td>
+                            @foreach (var borrow in Borrows)
+                            {
+                                if (book.BookId == borrow.BookId)
+                                {
+                                    @foreach (var member2 in Members)
+                                    {
+                                        @if (member2.MemberId == borrow.MemberId)
+                                        {
+                                            <td>
+                                                @member2.Name
+                                            </td>
+                                        }
+                                    }
+                                    @if (borrow.BorrowDeadline < DateTime.Today)
+                                    {
+                                        <td style="color: red">
+                                            @((borrow.BorrowDeadline).ToLongDateString())
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @((borrow.BorrowDeadline).ToLongDateString())
+                                        </td>
+                                    }
+                                }
+                            }
+
+
+                        </tr>
+
+
+                    }
+                </tbody>
+            </table>
+        }
+
+    
+}
+else
+{
+    <h3>All Books</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Publish Year</th>
+                <th>Borrower</th>
+                <th>Deadline</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                @foreach (var book in Books)
+                {
+                    
+                        <tr>
+                            <td>
+                                @book.Title
+                            </td>
+                            <td>
+                                @book.Author
+                            </td>
+                            <td>
+                                @book.Publisher
+                            </td>
+                            <td>
+                                @book.PublishYear
+                            </td>
+                    @foreach(var borrow in Borrows)
+                    {
+                        if(book.BookId == borrow.BookId)
+                        {
+                            @foreach (var member2 in Members)
+                            {
+                                @if (member2.MemberId == borrow.MemberId)
+                                {
+                                    <td>
+                                        @member2.Name
+                                    </td>
+                                }
+                            }
+                            @if (borrow.BorrowDeadline < DateTime.Today)
+                            {
+                                <td style="color: red">
+                                    @((borrow.BorrowDeadline).ToLongDateString())
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @((borrow.BorrowDeadline).ToLongDateString())
+                                </td>
+                            }
+                        }
+                    }
+                    
+                            
+                        </tr>
+                   
+                
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
-	public bool isLoading = true;
+    private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
+    private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+    private IEnumerable<BorrowDto> Borrows{ get; set; } = new List<BorrowDto>();
+    private MemberDto member { get; set; } = new MemberDto();
+    public bool isLoading = true;
 
-	protected override async Task OnInitializedAsync()
-	{
-		await Task.Run(LoadBooks);
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadBooks);
+        await Task.Run(LoadMembers);
+        await Task.Run(LoadBorrows);
+    }
 
-	private void LoadBooks()
-	{
-		Books = _bookRepository.GetAll();
-		isLoading = false;
-	}
+    private void LoadBooks()
+    {
+        Books = _bookRepository.GetAll();
+        isLoading = false;
+    }
+    private void LoadMembers()
+    {
+        Members = _memberRepository.GetAll();
+        isLoading = false;
+    }
+    private void LoadBorrows()
+    {
+        Borrows = _borrowRepository.GetAll();
+        isLoading = false;
+    }
+
+    private int GetBorrowedAmount(int id)
+    {
+        int amount = 0;
+        foreach(var borrow in Borrows){
+            if(borrow.MemberId == id)
+            {
+                amount++;
+            }
+        }
+        return amount;
+    }
 }

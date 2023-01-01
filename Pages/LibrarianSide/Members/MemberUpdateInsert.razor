@@ -60,11 +60,7 @@
 
     private void UpdateInsert()
     {
-        bool isNameEmpty = Member.Name.Equals(null) || Member.Name.Equals("");
-        bool nameContainsForbiddenCharacters = (Member.Name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{} ".ToCharArray())) != -1;
-
-        if (!isNameEmpty && !nameContainsForbiddenCharacters)
-        {
+        if (_memberRepository.ValidateName(Member.Name)){
             if (Member.MemberId == 0)
             {
                 // Create request

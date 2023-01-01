@@ -1,6 +1,6 @@
 using AutoMapper;
 using LibraryAppNi.Data.Database;
-using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 using LibraryAppNi.Data.Repository.IRepository;
 
 namespace LibraryAppNi.Data.Repository
@@ -20,8 +20,8 @@ namespace LibraryAppNi.Data.Repository
         {
             var member = _mapper.Map<MemberDto, Member>(memberDto);
 
-            _db.Add(member);
-            _db.SaveChanges();
+            _ = _db.Add(member);
+            _ = _db.SaveChanges();
 
             return _mapper.Map<Member, MemberDto>(member);
         }
@@ -32,7 +32,7 @@ namespace LibraryAppNi.Data.Repository
 
             if (member != null)
             {
-                _db.Members.Remove(member);
+                _ = _db.Members.Remove(member);
 
                 return _db.SaveChanges();
             }
@@ -67,13 +67,29 @@ namespace LibraryAppNi.Data.Repository
                 member.BirthDate = memberDto.BirthDate;
                 member.Address = memberDto.Address;
 
-                _db.Members.Update(member);
-                _db.SaveChanges();
+                _ = _db.Members.Update(member);
+                _ = _db.SaveChanges();
 
                 return _mapper.Map<Member, MemberDto>(member);
             }
 
             return memberDto;
+        }
+
+        public bool ValidateName(string name)
+        {
+            if (name.Equals(null) || name.Equals(""))
+            {
+                return false;
+            }
+
+            if (name.IndexOfAny("'+!%/=(),[]ĐđłŁ$÷×¸¨˝´˙`˛°˘^ˇ~.?:-_<>#&@{} ".ToCharArray()) != -1)
+            {
+                return false;
+            }
+
+
+            return true;
         }
     }
 }

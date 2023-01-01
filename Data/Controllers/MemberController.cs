@@ -1,7 +1,7 @@
+using LibraryAppNi.Data.Database;
+using LibraryAppNi.Data.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LibraryAppNi.Data.Database;
-using LibraryAppNi.Data.Library;
 
 namespace LibraryAppNi.Data.Controllers
 {
@@ -51,7 +51,7 @@ namespace LibraryAppNi.Data.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,8 +73,8 @@ namespace LibraryAppNi.Data.Controllers
         [HttpPost]
         public async Task<ActionResult<Member>> PostMember(Member member)
         {
-            _context.Members.Add(member);
-            await _context.SaveChangesAsync();
+            _ = _context.Members.Add(member);
+            _ = await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
         }
@@ -89,8 +89,8 @@ namespace LibraryAppNi.Data.Controllers
                 return NotFound();
             }
 
-            _context.Members.Remove(member);
-            await _context.SaveChangesAsync();
+            _ = _context.Members.Remove(member);
+            _ = await _context.SaveChangesAsync();
 
             return NoContent();
         }

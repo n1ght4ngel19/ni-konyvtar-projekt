@@ -1,6 +1,6 @@
 using AutoMapper;
 using LibraryAppNi.Data.Database;
-using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 using LibraryAppNi.Data.Repository.IRepository;
 
 namespace LibraryAppNi.Data.Repository
@@ -16,12 +16,16 @@ namespace LibraryAppNi.Data.Repository
             _mapper = mapper;
         }
 
-        public BookDto Create(BookDto bookDto)
+        public BookDto? Create(BookDto bookDto)
         {
+            if (bookDto == null)
+            {
+                return null;
+            }
             var book = _mapper.Map<BookDto, Book>(bookDto);
 
-            _db.Add(book);
-            _db.SaveChanges();
+            _ = _db.Add(book);
+            _ = _db.SaveChanges();
 
             return _mapper.Map<Book, BookDto>(book);
         }
@@ -32,7 +36,7 @@ namespace LibraryAppNi.Data.Repository
 
             if (book != null)
             {
-                _db.Books.Remove(book);
+                _ = _db.Books.Remove(book);
 
                 return _db.SaveChanges();
             }
@@ -69,8 +73,8 @@ namespace LibraryAppNi.Data.Repository
                 book.PublishYear = bookDto.PublishYear;
                 book.IsBorrowed = bookDto.IsBorrowed;
 
-                _db.Books.Update(book);
-                _db.SaveChanges();
+                _ = _db.Books.Update(book);
+                _ = _db.SaveChanges();
 
                 return _mapper.Map<Book, BookDto>(book);
             }
@@ -84,8 +88,8 @@ namespace LibraryAppNi.Data.Repository
 
             book.IsBorrowed = book.IsBorrowed != true;
 
-            _db.Books.Update(book);
-            _db.SaveChanges();
+            _ = _db.Books.Update(book);
+            _ = _db.SaveChanges();
 
             return _mapper.Map<Book, BookDto>(book);
         }

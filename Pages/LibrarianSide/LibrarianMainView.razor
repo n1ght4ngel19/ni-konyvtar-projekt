@@ -1,0 +1,294 @@
+﻿@page "/librarian"
+
+@inject IBookRepository _bookRepository
+@inject IBorrowRepository _borrowRepository
+@inject IMemberRepository _memberRepository
+@inject IJSRuntime _jsRuntime
+
+<_DeleteConfim ConfirmationChanged="ConfirmDeleteClick"></_DeleteConfim>
+<div class="row mt-4">
+	<div class="col-6">
+		<h3 class="card-title text-primary">Books</h3>
+	</div>
+	<div class="col-5 offset-1">
+		<a href="/book/create" class="btn btn-primary form-control">Add new book</a>
+	</div>
+	<div class="col-12">
+		@if (Books.Any())
+		{
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Book ID</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Publisher</th>
+						<th>Publish Year</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var Book in Books)
+					{
+						<tr>
+							<td>
+								@Book.BookId
+							</td>
+							<td>
+								@Book.Title
+							</td>
+							<td>
+								@Book.Author
+							</td>
+							<td>
+								@Book.Publisher
+							</td>
+							<td>
+								@Book.PublishYear
+							</td>
+							<td>
+								<NavLink href="@($"/book/edit/{Book.BookId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleBookDelete(Book.BookId)">Delete</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			if (isLoading)
+			{
+				// Loading
+				<div class="text-center">
+					<img src="/images/spinner-blue.gif">
+				</div>
+			}
+			else
+			{
+					// No records in the DB
+				<p>No records found in the database.</p>
+			}
+		}
+	</div>
+</div>
+
+<div class="row mt-4">
+	<div class="col-6">
+		<h3 class="card-title text-primary">Borrows</h3>
+	</div>
+	<div class="col-5 offset-1">
+		<a href="/borrow/create" class="btn btn-primary form-control">Add new borrow</a>
+	</div>
+	<div class="col-12">
+		@if (Borrows.Any())
+		{
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Borrow ID</th>
+						<th>Title</th>
+						<th>Member</th>
+						<th>Borrow Date</th>
+						<th>Borrow Deadline</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var Borrow in Borrows)
+					{
+						<tr>
+							<td>
+								@Borrow.BorrowId
+							</td>
+							<td>
+								@_bookRepository.Get(@Borrow.BookId).Title
+							</td>
+							<td>
+								@_memberRepository.Get(@Borrow.MemberId).Name
+							</td>
+							<td>
+								@((Borrow.BorrowDate).ToLongDateString())
+							</td>
+							<td>
+								@((Borrow.BorrowDeadline).ToLongDateString())
+							</td>
+							<td>
+								<NavLink href="@($"/borrow/edit/{Borrow.BorrowId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleBorrowDelete(Borrow.BorrowId)">Delete</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			if (isLoading)
+			{
+				// Loading
+				<div class="text-center">
+					<img src="/images/spinner-blue.gif">
+				</div>
+			}
+			else
+			{
+					// No records in the DB
+				<p>No records found in the database.</p>
+			}
+		}
+	</div>
+</div>
+
+<div class="row mt-4">
+	<div class="col-6">
+		<h3 class="card-title text-primary">Members</h3>
+	</div>
+	<div class="col-5 offset-1">
+		<a href="/memberslist/create" class="btn btn-primary form-control">Add new member</a>
+	</div>
+	<div class="col-12">
+		@if (Members.Any())
+		{
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Member ID</th>
+						<th>Name</th>
+						<th>Birth Date</th>
+						<th>Address</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var Member in Members)
+					{
+						<tr>
+							<td>
+								@Member.MemberId
+							</td>
+							<td>
+								@Member.Name
+							</td>
+							<td>
+								@((Member.BirthDate).ToLongDateString())
+							</td>
+							<td>
+								@Member.Address
+							</td>
+							<td>
+								<NavLink href="@($"/memberslist/edit/{Member.MemberId}")" class="btn btn-primary">Edit</NavLink>
+								<button class="btn btn-danger" @onclick="() => HandleMemberDelete(Member.MemberId)">Delete</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			if (isLoading)
+			{
+				// Loading
+				<div class="text-center">
+					<img src="/images/spinner-blue.gif">
+				</div>
+			}
+			else
+			{
+					// No records in the DB
+				<p>No records found in the database.</p>
+			}
+		}
+	</div>
+</div>
+
+@code {
+	public bool isLoading = true;
+
+	private IEnumerable<BookDto> Books { get; set; } = new List<BookDto>();
+	private int DeleteBookId { get; set; } = 0;
+
+	private IEnumerable<BorrowDto> Borrows { get; set; } = new List<BorrowDto>();
+	private int DeleteBorrowId { get; set; } = 0;
+
+	private IEnumerable<MemberDto> Members { get; set; } = new List<MemberDto>();
+	private int DeleteMemberId { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Run(LoadData);
+	}
+
+	private void LoadData()
+	{
+		LoadBooks();
+		LoadBorrows();
+		LoadMembers();
+		isLoading = false;
+	}
+
+	private void LoadBooks()
+	{
+		Books = _bookRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void LoadBorrows()
+	{
+		Borrows = _borrowRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void LoadMembers()
+	{
+		Members = _memberRepository.GetAll();
+		isLoading = false;
+	}
+
+	private void HandleBookDelete(int Id)
+	{
+		DeleteBookId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private void HandleBorrowDelete(int Id)
+	{
+		DeleteBorrowId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private void HandleMemberDelete(int Id)
+	{
+		DeleteMemberId = Id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmModal");
+	}
+
+	private async Task ConfirmDeleteClick(bool isConfirmed)
+	{
+		if (isConfirmed)
+		{
+			if (DeleteBookId != 0)
+			{
+				_bookRepository.Delete(DeleteBookId);
+				LoadBooks();
+				await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+				DeleteBookId = 0;
+			}
+			else if (DeleteBorrowId != 0)
+			{
+				_borrowRepository.Delete(DeleteBorrowId);
+				LoadBorrows();
+				await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+				DeleteBorrowId = 0;
+			}
+			else if(DeleteMemberId != 0)
+			{
+				_memberRepository.Delete(DeleteMemberId);
+				LoadMembers();
+				await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmModal");
+				DeleteMemberId = 0;
+			}
+		}
+	}
+}

@@ -2,17 +2,16 @@
 @page "/borrow/edit/{Id:int}"
 
 @inject IJSRuntime _jsRuntime
-
-<h3>Add borrow</h3>
-
 @inject IBookRepository _bookRepository
 @inject IMemberRepository _memberRepository
 @inject IBorrowRepository _borrowRepository
 @inject IJSRuntime _jsRuntime
 @inject NavigationManager _navigationManager
 
-@using static System.Net.WebRequestMethods;
+@    using static System.Net.WebRequestMethods;
+    using LibraryAppNi.Data.Model;
 
+<h3>@Action borrow</h3>
 
 @if (isLoading)
 { 
@@ -22,7 +21,7 @@
 	</div>
 }
 else
-{
+{	
 	<EditForm Model="Borrow" OnValidSubmit="UpdateInsert">
 		<DataAnnotationsValidator/>
 		@*<ValidationSummary/>*@
@@ -99,7 +98,7 @@ else
 
     private void UpdateInsert()
     {
-        if (Borrow.BorrowDate <= Borrow.BorrowDeadline)
+        if(_borrowRepository.ValidateDeadLine(Borrow.BorrowDate, Borrow.BorrowDeadline))
         {
             if (Borrow.BorrowId == 0)
             {

@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using LibraryAppNi.Data.Database;
-using Microsoft.EntityFrameworkCore;
 
-namespace LibraryAppNi.Data.Library
+namespace LibraryAppNi.Data.Model
 {
     public class Book
     {

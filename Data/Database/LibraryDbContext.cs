@@ -1,4 +1,4 @@
-﻿using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAppNi.Data.Database

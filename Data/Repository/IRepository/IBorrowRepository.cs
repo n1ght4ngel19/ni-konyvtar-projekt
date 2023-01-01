@@ -1,4 +1,4 @@
-﻿using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 
 namespace LibraryAppNi.Data.Repository.IRepository
 {
@@ -9,5 +9,6 @@ namespace LibraryAppNi.Data.Repository.IRepository
         public int Delete(int borrowId);
         public BorrowDto Get(int borrowId);
         public IEnumerable<BorrowDto> GetAll();
+        public bool ValidateDeadLine(DateTime start, DateTime end);
     }
 }
