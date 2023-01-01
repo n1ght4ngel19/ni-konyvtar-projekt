@@ -19,11 +19,11 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
+						<th>Book ID</th>
 						<th>Title</th>
 						<th>Author</th>
 						<th>Publisher</th>
 						<th>Publish Year</th>
-						<th>Is Borrowed?</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -31,6 +31,9 @@
 					@foreach (var Book in Books)
 					{
 						<tr>
+							<td>
+								@Book.BookId
+							</td>
 							<td>
 								@Book.Title
 							</td>
@@ -42,9 +45,6 @@
 							</td>
 							<td>
 								@Book.PublishYear
-							</td>
-							<td>
-								@Book.IsBorrowed
 							</td>
 							<td>
 								<NavLink href="@($"/book/edit/{Book.BookId}")" class="btn btn-primary">Edit</NavLink>
@@ -86,10 +86,11 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
+						<th>Borrow ID</th>
 						<th>Title</th>
 						<th>Member</th>
-						<th>BorrowDate</th>
-						<th>BorrowDeadline</th>
+						<th>Borrow Date</th>
+						<th>Borrow Deadline</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -97,6 +98,9 @@
 					@foreach (var Borrow in Borrows)
 					{
 						<tr>
+							<td>
+								@Borrow.BorrowId
+							</td>
 							<td>
 								@_bookRepository.Get(@Borrow.BookId).Title
 							</td>
@@ -149,10 +153,11 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>MemberId</th>
+						<th>Member ID</th>
 						<th>Name</th>
-						<th>BirthDate</th>
+						<th>Birth Date</th>
 						<th>Address</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -171,18 +176,6 @@
 							<td>
 								@Member.Address
 							</td>
-							@foreach (var borrow in Borrows)
-							{
-								@if (borrow.MemberId == Member.MemberId)
-								{
-									@if (borrow.BorrowDeadline < DateTime.Today)
-									{
-										<td style="color: red">
-											@borrow.BorrowDeadline
-										</td>
-									}
-								}
-							}
 							<td>
 								<NavLink href="@($"/memberslist/edit/{Member.MemberId}")" class="btn btn-primary">Edit</NavLink>
 								<button class="btn btn-danger" @onclick="() => HandleMemberDelete(Member.MemberId)">Delete</button>
