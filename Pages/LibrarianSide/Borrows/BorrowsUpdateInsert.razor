@@ -2,9 +2,6 @@
 @page "/borrow/edit/{Id:int}"
 
 @inject IJSRuntime _jsRuntime
-
-<h3>Add borrow</h3>
-
 @inject IBookRepository _bookRepository
 @inject IMemberRepository _memberRepository
 @inject IBorrowRepository _borrowRepository
@@ -13,6 +10,7 @@
 
 @using static System.Net.WebRequestMethods;
 
+<h3>@Action borrow</h3>
 
 @if (isLoading)
 { 
@@ -22,7 +20,7 @@
 	</div>
 }
 else
-{
+{	
 	<EditForm Model="Borrow" OnValidSubmit="UpdateInsert">
 		<DataAnnotationsValidator/>
 		@*<ValidationSummary/>*@
