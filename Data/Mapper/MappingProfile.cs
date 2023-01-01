@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 
 namespace LibraryAppNi.Data.Mapper
 {
@@ -7,9 +7,9 @@ namespace LibraryAppNi.Data.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<Book, BookDto>().ReverseMap();
-            CreateMap<Member, MemberDto>().ReverseMap();
-            CreateMap<Borrow, BorrowDto>().ReverseMap();
+            _ = CreateMap<Book, BookDto>().ReverseMap();
+            _ = CreateMap<Member, MemberDto>().ReverseMap();
+            _ = CreateMap<Borrow, BorrowDto>().ReverseMap();
         }
     }
 }

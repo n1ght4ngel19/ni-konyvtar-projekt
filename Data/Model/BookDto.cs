@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryAppNi.Data.Library
+namespace LibraryAppNi.Data.Model
 {
     public class BookDto
     {
@@ -14,6 +14,6 @@ namespace LibraryAppNi.Data.Library
         [Required]
         public int PublishYear { get; set; }
         [Required]
-        public bool IsBorrowed { get; set; }
+        public bool IsBorrowed { get; set; } = false;
     }
 }

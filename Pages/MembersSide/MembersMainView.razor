@@ -5,7 +5,8 @@
 @inject IBorrowRepository _borrowRepository
 @inject IJSRuntime _jsRuntime
 
-@using static System.Net.WebRequestMethods;
+@    using static System.Net.WebRequestMethods;
+    using LibraryAppNi.Data.Model;
 
 @if (isLoading)
 {

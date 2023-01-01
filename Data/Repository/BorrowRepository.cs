@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LibraryAppNi.Data.Database;
-using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 using LibraryAppNi.Data.Repository.IRepository;
 
 namespace LibraryAppNi.Data.Repository
@@ -20,8 +20,8 @@ namespace LibraryAppNi.Data.Repository
         {
             var borrow = _mapper.Map<BorrowDto, Borrow>(borrowDto);
 
-            _db.Add(borrow);
-            _db.SaveChanges();
+            _ = _db.Add(borrow);
+            _ = _db.SaveChanges();
 
             return _mapper.Map<Borrow, BorrowDto>(borrow);
         }
@@ -32,7 +32,7 @@ namespace LibraryAppNi.Data.Repository
 
             if (borrow != null)
             {
-                _db.Borrows.Remove(borrow);
+                _ = _db.Borrows.Remove(borrow);
 
                 return _db.SaveChanges();
             }
@@ -68,13 +68,18 @@ namespace LibraryAppNi.Data.Repository
                 borrow.BorrowDate = borrowDto.BorrowDate;
                 borrow.BorrowDeadline = borrowDto.BorrowDeadline;
 
-                _db.Borrows.Update(borrow);
-                _db.SaveChanges();
+                _ = _db.Borrows.Update(borrow);
+                _ = _db.SaveChanges();
 
                 return _mapper.Map<Borrow, BorrowDto>(borrow);
             }
 
             return borrowDto;
+        }
+
+        public bool ValidateDeadLine(DateTime start, DateTime end)
+        {
+            return end > start;
         }
     }
 }

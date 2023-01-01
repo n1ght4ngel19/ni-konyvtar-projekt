@@ -8,7 +8,8 @@
 @inject IJSRuntime _jsRuntime
 @inject NavigationManager _navigationManager
 
-@using static System.Net.WebRequestMethods;
+@    using static System.Net.WebRequestMethods;
+    using LibraryAppNi.Data.Model;
 
 <h3>@Action borrow</h3>
 
@@ -97,7 +98,7 @@ else
 
     private void UpdateInsert()
     {
-        if (Borrow.BorrowDate <= Borrow.BorrowDeadline)
+        if(_borrowRepository.ValidateDeadLine(Borrow.BorrowDate, Borrow.BorrowDeadline))
         {
             if (Borrow.BorrowId == 0)
             {

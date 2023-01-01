@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryAppNi.Data.Library
+namespace LibraryAppNi.Data.Model
 {
     public class MemberDto
     {
@@ -8,7 +8,7 @@ namespace LibraryAppNi.Data.Library
         [Required]
         public string Name { get; set; }
         [Required]
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Today;
         [Required]
         public string Address { get; set; }
     }

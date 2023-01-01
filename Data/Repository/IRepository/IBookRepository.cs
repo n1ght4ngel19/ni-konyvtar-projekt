@@ -1,4 +1,4 @@
-using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 
 namespace LibraryAppNi.Data.Repository.IRepository
 {

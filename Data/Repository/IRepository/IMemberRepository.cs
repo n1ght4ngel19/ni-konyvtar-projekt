@@ -1,4 +1,4 @@
-﻿using LibraryAppNi.Data.Library;
+using LibraryAppNi.Data.Model;
 
 namespace LibraryAppNi.Data.Repository.IRepository
 {
@@ -9,5 +9,6 @@ namespace LibraryAppNi.Data.Repository.IRepository
         public int Delete(int memberId);
         public MemberDto Get(int memberId);
         public IEnumerable<MemberDto> GetAll();
+        public bool ValidateName(string name);
     }
 }

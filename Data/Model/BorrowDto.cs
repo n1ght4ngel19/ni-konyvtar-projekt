@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryAppNi.Data.Library
+namespace LibraryAppNi.Data.Model
 {
     public class BorrowDto
     {
@@ -11,8 +11,8 @@ namespace LibraryAppNi.Data.Library
         [Required]
         public int BookId { get; set; }
         [Required]
-        public DateTime BorrowDate { get; set; }
+        public DateTime BorrowDate { get; set; } = DateTime.Today;
         [Required]
-        public DateTime BorrowDeadline { get; set; } // TODO: Validate date
+        public DateTime BorrowDeadline { get; set; } = DateTime.Today;
     }
 }

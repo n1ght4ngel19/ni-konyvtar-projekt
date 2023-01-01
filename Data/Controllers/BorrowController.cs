@@ -1,7 +1,7 @@
+using LibraryAppNi.Data.Database;
+using LibraryAppNi.Data.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LibraryAppNi.Data.Database;
-using LibraryAppNi.Data.Library;
 
 namespace LibraryAppNi.Data.Controllers
 {
@@ -51,7 +51,7 @@ namespace LibraryAppNi.Data.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,8 +73,8 @@ namespace LibraryAppNi.Data.Controllers
         [HttpPost]
         public async Task<ActionResult<Borrow>> PostBorrow(Borrow borrow)
         {
-            _context.Borrows.Add(borrow);
-            await _context.SaveChangesAsync();
+            _ = _context.Borrows.Add(borrow);
+            _ = await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBorrow", new { id = borrow.BorrowId }, borrow);
         }
@@ -89,8 +89,8 @@ namespace LibraryAppNi.Data.Controllers
                 return NotFound();
             }
 
-            _context.Borrows.Remove(borrow);
-            await _context.SaveChangesAsync();
+            _ = _context.Borrows.Remove(borrow);
+            _ = await _context.SaveChangesAsync();
 
             return NoContent();
         }

@@ -8,7 +8,7 @@ namespace LibraryAppNi.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -22,10 +22,10 @@ namespace LibraryAppNi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.BookId);
+                    _ = table.PrimaryKey("PK_Books", x => x.BookId);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Borrows",
                 columns: table => new
                 {
@@ -38,10 +38,10 @@ namespace LibraryAppNi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Borrows", x => x.BorrowId);
+                    _ = table.PrimaryKey("PK_Borrows", x => x.BorrowId);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Members",
                 columns: table => new
                 {
@@ -53,19 +53,19 @@ namespace LibraryAppNi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.MemberId);
+                    _ = table.PrimaryKey("PK_Members", x => x.MemberId);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Books");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Borrows");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Members");
         }
     }

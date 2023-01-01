@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryAppNi.Data.Library
+namespace LibraryAppNi.Data.Model
 {
     public class Member
     {
